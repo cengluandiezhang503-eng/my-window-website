@@ -4,6 +4,7 @@ import Hero from './Hero';
 import ProjectStage from './ProjectStage';
 import PopularProducts from './PopularProducts';
 import WindowExplorer from './WindowExplorer';
+import NextSteps from './NextSteps';
 import Stats from './Stats';
 import WhyUs from './WhyUs';
 import Brands from './Brands';
@@ -25,6 +26,7 @@ function Home() {
       <ProjectStage />
       <PopularProducts />
       <WindowExplorer />
+      <NextSteps />
       <Stats />
       <WhyUs />
       <Brands />
