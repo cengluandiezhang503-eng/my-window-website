@@ -151,12 +151,12 @@ function ProductDetail() {
           <div className="flex gap-4">
             <button
               onClick={function() { navigate('/products'); }}
-              className="border-2 border-white text-white px-8 py-3 rounded-full font-bold text-sm bg-transparent hover:bg-white hover:text-gray-900 transition-all duration-500"
+              className="btn-fill border-2 border-white text-white px-8 py-3 rounded-full font-bold text-sm"
             >
               比较产品 →
             </button>
             <button
-              className="border-2 border-white text-white px-8 py-3 rounded-full font-bold text-sm bg-transparent hover:bg-white hover:text-gray-900 transition-all duration-500"
+              className="btn-fill border-2 border-white text-white px-8 py-3 rounded-full font-bold text-sm"
             >
               开始设计 →
             </button>
@@ -194,7 +194,7 @@ function ProductDetail() {
                         );
                       })}
                     </div>
-                    <button className="border-2 border-red-700 text-red-700 px-6 py-2 rounded-full font-bold text-sm bg-transparent hover:bg-red-700 hover:text-white transition-all duration-500">
+                    <button className="btn-fill-red border-2 border-red-700 text-red-700 px-6 py-2 rounded-full font-bold text-sm">
                       查看产品 →
                     </button>
                   </div>
@@ -291,7 +291,7 @@ function ProductDetail() {
           <p className="text-gray-600 mb-6">从我们专业的代表处获得个性化指导——无压力，只有专家建议。</p>
           <button
             onClick={function() { navigate('/'); }}
-            className="border-2 border-red-700 text-red-700 px-8 py-3 rounded-full font-bold bg-transparent hover:bg-red-700 hover:text-white transition-all duration-500"
+            className="btn-fill-red border-2 border-red-700 text-red-700 px-8 py-3 rounded-full font-bold"
           >
             立即联系 →
           </button>
