@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './Navbar';
 import Hero from './Hero';
 import Products from './Products';
@@ -14,13 +14,7 @@ import Contact from './Contact';
 import Footer from './Footer';
 import Admin from './Admin';
 
-function App() {
-  const isAdmin = window.location.pathname === '/admin';
-
-  if (isAdmin) {
-    return <Admin />;
-  }
-
+function Home() {
   return (
     <div>
       <Navbar />
@@ -37,6 +31,17 @@ function App() {
       <Contact />
       <Footer />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/admin" element={<Admin />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
