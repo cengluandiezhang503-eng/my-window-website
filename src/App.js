@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './Navbar';
 import Hero from './Hero';
 import ProjectStage from './ProjectStage';
+import PopularProducts from './PopularProducts';
 import Products from './Products';
 import Stats from './Stats';
 import WhyUs from './WhyUs';
@@ -22,6 +23,7 @@ function Home() {
     <div className="pt-24">
       <Hero />
       <ProjectStage />
+      <PopularProducts />
       <Products />
       <Stats />
       <WhyUs />
