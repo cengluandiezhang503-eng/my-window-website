@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Navbar from './Navbar';
 import Hero from './Hero';
 import Products from './Products';
@@ -11,8 +12,15 @@ import FAQ from './FAQ';
 import QuoteForm from './QuoteForm';
 import Contact from './Contact';
 import Footer from './Footer';
+import Admin from './Admin';
 
 function App() {
+  const isAdmin = window.location.pathname === '/admin';
+
+  if (isAdmin) {
+    return <Admin />;
+  }
+
   return (
     <div>
       <Navbar />
