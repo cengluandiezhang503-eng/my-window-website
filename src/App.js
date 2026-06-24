@@ -6,10 +6,7 @@ import PopularProducts from './PopularProducts';
 import WindowExplorer from './WindowExplorer';
 import NextSteps from './NextSteps';
 import WhyTrust from './WhyTrust';
-import Stats from './Stats';
-import WhyUs from './WhyUs';
-import Brands from './Brands';
-import Process from './Process';
+import ProductSupport from './ProductSupport';
 import Testimonials from './Testimonials';
 import CallToAction from './CallToAction';
 import FAQ from './FAQ';
@@ -29,10 +26,7 @@ function Home() {
       <WindowExplorer />
       <NextSteps />
       <WhyTrust />
-      <Stats />
-      <WhyUs />
-      <Brands />
-      <Process />
+      <ProductSupport />
       <Testimonials />
       <CallToAction />
       <FAQ />
