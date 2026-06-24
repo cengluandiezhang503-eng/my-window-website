@@ -117,44 +117,50 @@ function ProductDetail() {
   ];
 
   return (
-    <div className="pt-24 min-h-screen bg-white">
+    <div className="min-h-screen bg-white">
 
       {/* 面包屑导航 */}
-      <div className="max-w-6xl mx-auto px-8 py-4">
-        <div className="flex items-center gap-2 text-sm text-gray-500">
-          <button onClick={function() { navigate('/'); }} className="hover:text-red-700">首页</button>
+      <div className="fixed top-24 left-0 right-0 z-40 px-8 py-2">
+        <div className="flex items-center gap-2 text-sm text-white drop-shadow">
+          <button onClick={function() { navigate('/'); }} className="hover:underline">首页</button>
           <span>›</span>
-          <button onClick={function() { navigate('/products'); }} className="hover:text-red-700">窗户与门</button>
+          <button onClick={function() { navigate('/products'); }} className="hover:underline">窗户与门</button>
           <span>›</span>
-          <button onClick={function() { navigate('/products'); }} className="hover:text-red-700">窗户</button>
+          <button onClick={function() { navigate('/products'); }} className="hover:underline">窗户</button>
           <span>›</span>
-          <span className="text-gray-900 font-medium">{product.name}</span>
+          <span className="font-medium">{product.name}</span>
         </div>
       </div>
 
-      {/* 产品标题区 */}
-      <div className="max-w-6xl mx-auto px-8 py-8 grid grid-cols-2 gap-12">
-        <div>
-          <h1 className="text-4xl font-black text-gray-900 mb-4">{product.name}</h1>
-          <p className="text-gray-600 mb-8 leading-relaxed">{product.description}</p>
+      {/* 产品标题区 - 全屏大图 */}
+      <div
+        className="relative w-full flex items-end pt-24"
+        style={{
+          backgroundImage: 'url(' + product.image + ')',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          height: '70vh'
+        }}
+      >
+        <div className="absolute inset-0 bg-black opacity-30"></div>
+        <div className="relative z-10 text-white px-16 pb-16 max-w-3xl">
+          <h1 className="text-5xl font-black mb-4">{product.name}</h1>
+          <p className="text-gray-200 mb-8 leading-relaxed text-lg max-w-xl">
+            {product.description}
+          </p>
           <div className="flex gap-4">
-            <button className="border-2 border-red-700 text-red-700 px-6 py-3 rounded-full font-bold text-sm hover:bg-red-700 hover:text-white transition-colors">
-              开始设计 →
+            <button
+              onClick={function() { navigate('/products'); }}
+              className="border-2 border-white text-white px-8 py-3 rounded-full font-bold text-sm hover:bg-white hover:text-gray-900 transition-colors"
+            >
+              比较产品 →
             </button>
             <button
-              onClick={function() { navigate('/'); }}
-              className="border-2 border-gray-900 text-gray-900 px-6 py-3 rounded-full font-bold text-sm hover:bg-gray-900 hover:text-white transition-colors"
+              className="bg-white text-gray-900 px-8 py-3 rounded-full font-bold text-sm hover:bg-gray-100 transition-colors"
             >
-              获取报价 →
+              开始设计 →
             </button>
           </div>
-        </div>
-        <div>
-          <img
-            src={product.image}
-            alt={product.name}
-            className="w-full h-80 object-cover rounded"
-          />
         </div>
       </div>
 
