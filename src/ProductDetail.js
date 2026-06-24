@@ -77,19 +77,19 @@ function ProductDetail() {
   const faqs = [
     {
       question: '什么是' + product.name + '？',
-      answer: product.name + '是将三扇或更多窗户组合成一个单元，窗户以不同角度排列。一种流行的变体是弧形窗，四扇或更多窗户呈弧形排列。'
+      answer: product.name + '是将三扇或更多窗户组合成一个单元，窗户以不同角度排列。'
     },
     {
       question: product.name + '最适合安装在哪里？',
-      answer: '由于其戏剧性和美观性，' + product.name + '通常安装在家中的聚会空间。它们在客厅或餐厅中特别有影响力，也非常适合面向街道的房间。'
+      answer: '由于其戏剧性和美观性，' + product.name + '通常安装在家中的聚会空间，在客厅或餐厅中特别有影响力。'
     },
     {
       question: product.name + '有多大？',
-      answer: product.name + '的尺寸可以根据您的需求定制。我们提供多种尺寸选择，您可以联系我们的专家获取详细的尺寸信息。'
+      answer: product.name + '的尺寸可以根据您的需求定制，请联系我们的专家获取详细的尺寸信息。'
     },
     {
       question: product.name + '的优点是什么？',
-      answer: product.name + '为家庭增添了很多价值，包括：多角度窗户创造的全景视野、更多自然光、额外空间以及独特外观增添的特色。'
+      answer: product.name + '为家庭增添了很多价值，包括全景视野、更多自然光、额外空间以及独特外观。'
     },
     {
       question: product.name + '的费用是多少？',
@@ -151,12 +151,12 @@ function ProductDetail() {
           <div className="flex gap-4">
             <button
               onClick={function() { navigate('/products'); }}
-              className="border-2 border-white text-white px-8 py-3 rounded-full font-bold text-sm hover:bg-white hover:text-gray-900 transition-colors"
+              className="border-2 border-white text-white px-8 py-3 rounded-full font-bold text-sm bg-transparent hover:bg-white hover:text-gray-900 transition-all duration-500"
             >
               比较产品 →
             </button>
             <button
-              className="bg-white text-gray-900 px-8 py-3 rounded-full font-bold text-sm hover:bg-gray-100 transition-colors"
+              className="border-2 border-white text-white px-8 py-3 rounded-full font-bold text-sm bg-transparent hover:bg-white hover:text-gray-900 transition-all duration-500"
             >
               开始设计 →
             </button>
@@ -194,7 +194,7 @@ function ProductDetail() {
                         );
                       })}
                     </div>
-                    <button className="border-2 border-red-700 text-red-700 px-6 py-2 rounded-full font-bold text-sm hover:bg-red-700 hover:text-white transition-colors">
+                    <button className="border-2 border-red-700 text-red-700 px-6 py-2 rounded-full font-bold text-sm bg-transparent hover:bg-red-700 hover:text-white transition-all duration-500">
                       查看产品 →
                     </button>
                   </div>
@@ -244,7 +244,7 @@ function ProductDetail() {
                     key={index}
                     onClick={function() { setActiveSlide(index); }}
                     className={
-                      'w-8 h-8 rounded-full font-bold text-sm transition-colors ' +
+                      'w-8 h-8 rounded-full font-bold text-sm transition-all duration-300 ' +
                       (activeSlide === index ? 'bg-red-700 text-white' : 'bg-gray-200 text-gray-600 hover:bg-gray-300')
                     }
                   >
@@ -267,7 +267,7 @@ function ProductDetail() {
                 <div key={index} className="border-b">
                   <button
                     onClick={function() { setOpenFaq(openFaq === index ? null : index); }}
-                    className="w-full text-left py-5 flex justify-between items-center font-bold text-gray-900 hover:text-red-700"
+                    className="w-full text-left py-5 flex justify-between items-center font-bold text-gray-900 hover:text-red-700 transition-colors duration-300"
                   >
                     {faq.question}
                     <span className="text-2xl text-gray-400">{openFaq === index ? '−' : '+'}</span>
@@ -291,7 +291,7 @@ function ProductDetail() {
           <p className="text-gray-600 mb-6">从我们专业的代表处获得个性化指导——无压力，只有专家建议。</p>
           <button
             onClick={function() { navigate('/'); }}
-            className="border-2 border-red-700 text-red-700 px-8 py-3 rounded-full font-bold hover:bg-red-700 hover:text-white transition-colors"
+            className="border-2 border-red-700 text-red-700 px-8 py-3 rounded-full font-bold bg-transparent hover:bg-red-700 hover:text-white transition-all duration-500"
           >
             立即联系 →
           </button>
