@@ -5,6 +5,7 @@ import ProjectStage from './ProjectStage';
 import PopularProducts from './PopularProducts';
 import WindowExplorer from './WindowExplorer';
 import NextSteps from './NextSteps';
+import WhyTrust from './WhyTrust';
 import Stats from './Stats';
 import WhyUs from './WhyUs';
 import Brands from './Brands';
@@ -27,6 +28,7 @@ function Home() {
       <PopularProducts />
       <WindowExplorer />
       <NextSteps />
+      <WhyTrust />
       <Stats />
       <WhyUs />
       <Brands />
