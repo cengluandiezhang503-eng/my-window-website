@@ -100,8 +100,14 @@ function Navbar() {
           >
             获取报价
           </button>
-          <button onClick={toggleSearch} className="text-gray-700 hover:text-gray-900">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <button
+            onClick={toggleSearch}
+            className={
+              'w-9 h-9 rounded-full flex items-center justify-center transition-colors ' +
+              (searchOpen ? 'bg-red-700 text-white' : 'text-gray-700 hover:bg-gray-100')
+            }
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </button>
@@ -156,7 +162,11 @@ function Navbar() {
                 { title: '认证承包商', img: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=300' },
               ].map(function(card) {
                 return (
-                  <div key={card.title} className="relative cursor-pointer group rounded overflow-hidden" onClick={function() { navigate('/products'); setMenuOpen(null); }}>
+                  <div
+                    key={card.title}
+                    className="relative cursor-pointer group rounded overflow-hidden"
+                    onClick={function() { navigate('/products'); setMenuOpen(null); }}
+                  >
                     <img src={card.img} alt={card.title} className="w-full h-32 object-cover" />
                     <div className="absolute bottom-3 left-0 right-0 flex justify-center">
                       <span className="bg-white border-2 border-red-700 text-red-700 text-xs font-bold px-3 py-1 rounded-full group-hover:bg-red-700 group-hover:text-white transition-colors">
@@ -171,6 +181,40 @@ function Navbar() {
         </div>
       )}
 
+      {/* 灵感下拉菜单 */}
+      {menuOpen === 'inspiration' && (
+        <div className="w-full bg-white shadow-2xl border-t">
+          <div className="max-w-6xl mx-auto px-8 py-8 grid grid-cols-3 gap-8">
+            <div>
+              <div className="font-black text-gray-900 text-base mb-4">灵感来源</div>
+              <ul className="flex flex-col gap-3 text-gray-700 text-sm">
+                {['博客', '项目展示', '图片画廊', '按房间选窗', '查看全部'].map(function(item) {
+                  return <li key={item} className="hover:text-red-700 cursor-pointer">{item}</li>;
+                })}
+              </ul>
+            </div>
+            <div className="col-span-2 grid grid-cols-2 gap-4">
+              {[
+                { title: '探索博客', img: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=300' },
+                { title: '图片画廊', img: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=300' },
+              ].map(function(card) {
+                return (
+                  <div key={card.title} className="relative cursor-pointer group rounded overflow-hidden">
+                    <img src={card.img} alt={card.title} className="w-full h-32 object-cover" />
+                    <div className="absolute bottom-3 left-0 right-0 flex justify-center">
+                      <span className="bg-white border-2 border-red-700 text-red-700 text-xs font-bold px-3 py-1 rounded-full group-hover:bg-red-700 group-hover:text-white transition-colors">
+                        {card.title}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 点击空白处关闭菜单 */}
       {menuOpen && (
         <div className="fixed inset-0 z-30" onClick={function() { setMenuOpen(null); }} />
       )}
