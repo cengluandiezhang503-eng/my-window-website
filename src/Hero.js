@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Hero() {
   const [content, setContent] = useState({
-    slogan: '为您的家找到最完美的窗户和门',
-    description: '高品质窗户和门，专业安装，让您的家更美更节能'
+    slogan: '信任您的家，交给我们',
+    description: '高品质窗户和门，专为您的家而生'
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch('https://window-server.onrender.com/api/content')
@@ -13,16 +15,39 @@ function Hero() {
   }, []);
 
   return (
-    <div className="bg-gray-100 py-20 px-8 text-center">
-      <h1 className="text-5xl font-bold text-gray-800 mb-6">
-        {content.slogan}
-      </h1>
-      <p className="text-xl text-gray-500 mb-10">
-        {content.description}
-      </p>
-      <button className="bg-red-700 text-white px-10 py-4 text-lg rounded hover:bg-red-800">
-        立即获取免费报价
-      </button>
+    <div className="relative">
+      {/* 大图英雄区 */}
+      <div
+        className="relative h-screen bg-cover bg-center flex items-end"
+        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=1600')" }}
+      >
+        {/* 深色遮罩 */}
+        <div className="absolute inset-0 bg-black opacity-40"></div>
+
+        {/* 文字内容 */}
+        <div className="relative z-10 text-white px-16 pb-24 max-w-3xl">
+          <h1 className="text-6xl font-bold mb-6 leading-tight">
+            {content.slogan}
+          </h1>
+          <p className="text-xl mb-10 text-gray-200">
+            {content.description}
+          </p>
+          <div className="flex gap-4">
+            <button
+              onClick={function() { navigate('/products'); }}
+              className="bg-white text-gray-900 px-8 py-4 font-bold text-lg hover:bg-gray-100"
+            >
+              探索窗户
+            </button>
+            <button
+              onClick={function() { navigate('/products'); }}
+              className="border-2 border-white text-white px-8 py-4 font-bold text-lg hover:bg-white hover:text-gray-900"
+            >
+              探索门
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
