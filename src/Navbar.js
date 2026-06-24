@@ -5,40 +5,25 @@ function Navbar() {
   const [menuOpen, setMenuOpen] = useState(null);
   const [searchOpen, setSearchOpen] = useState(false);
   const navigate = useNavigate();
-  const navRef = useRef(null);
+  const headerRef = useRef(null);
 
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (navRef.current && !navRef.current.contains(event.target)) {
+  useEffect(function() {
+    function handleClick(e) {
+      if (headerRef.current && !headerRef.current.contains(e.target)) {
         setMenuOpen(null);
         setSearchOpen(false);
       }
     }
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', handleClick);
     return function() {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('mousedown', handleClick);
     };
   }, []);
 
-  const toggleMenu = function(menu) {
-    if (menuOpen === menu) {
-      setMenuOpen(null);
-    } else {
-      setMenuOpen(menu);
-      setSearchOpen(false);
-    }
-  };
-
-  const toggleSearch = function() {
-    setSearchOpen(!searchOpen);
-    setMenuOpen(null);
-  };
-
   return (
-    <header className="fixed top-0 left-0 right-0 z-50" ref={navRef}>
-      {/* 黑色顶部工具栏 */}
+    <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50">
       <div className="bg-black text-white text-xs py-2 px-8 flex justify-center items-center gap-6">
-        <button className="hover:text-gray-300 flex items-center gap-1">📍 经销商查询</button>
+        <button className="hover:text-gray-300">📍 经销商查询</button>
         <span className="text-gray-600">|</span>
         <button className="hover:text-gray-300">认证承包商</button>
         <span className="text-gray-600">|</span>
@@ -51,69 +36,44 @@ function Navbar() {
         <span className="font-medium">400-123-4567</span>
       </div>
 
-      {/* 白色主导航栏 */}
       <nav className="bg-white border-b px-8 py-4 flex justify-between items-center">
         <div
-          className="cursor-pointer flex items-center gap-2 flex-shrink-0"
+          className="cursor-pointer flex items-center gap-2"
           onClick={function() { navigate('/'); setMenuOpen(null); }}
         >
-          <div className="bg-red-700 text-white font-bold px-3 py-2 text-lg">🏠</div>
+          <div className="bg-red-700 text-white font-bold px-3 py-2">🏠</div>
           <div>
-            <div className="font-black text-gray-900 text-lg leading-tight">我的窗户公司</div>
+            <div className="font-black text-gray-900 text-lg">我的窗户公司</div>
             <div className="text-gray-500 text-xs tracking-widest">WINDOWS & DOORS</div>
           </div>
         </div>
 
-        <ul className="flex gap-8 text-gray-800 font-medium text-sm">
-          {/* 窗户与门 */}
-          <li className="relative py-2">
-            <button
-              onClick={function() { toggleMenu('windows'); }}
-              className={'font-medium ' + (menuOpen === 'windows' ? 'border-b-2 border-red-700 text-red-700' : 'hover:text-red-700')}
-            >
-              窗户与门
-            </button>
-          </li>
-
-          {/* 灵感 */}
-          <li className="relative py-2">
-            <button
-              onClick={function() { toggleMenu('inspiration'); }}
-              className={'font-medium ' + (menuOpen === 'inspiration' ? 'border-b-2 border-red-700 text-red-700' : 'hover:text-red-700')}
-            >
-              灵感
-            </button>
-          </li>
-
-          {/* 服务支持 */}
-          <li className="relative py-2">
-            <button
-              onClick={function() { toggleMenu('support'); }}
-              className={'font-medium ' + (menuOpen === 'support' ? 'border-b-2 border-red-700 text-red-700' : 'hover:text-red-700')}
-            >
-              服务支持
-            </button>
-          </li>
-
-          {/* 技术文档 */}
-          <li className="relative py-2">
-            <button
-              onClick={function() { toggleMenu('docs'); }}
-              className={'font-medium ' + (menuOpen === 'docs' ? 'border-b-2 border-red-700 text-red-700' : 'hover:text-red-700')}
-            >
-              技术文档
-            </button>
-          </li>
-
-          {/* 专业人士 */}
-          <li className="relative py-2">
-            <button
-              onClick={function() { toggleMenu('pros'); }}
-              className={'font-medium ' + (menuOpen === 'pros' ? 'border-b-2 border-red-700 text-red-700' : 'hover:text-red-700')}
-            >
-              专业人士
-            </button>
-          </li>
+        <ul className="flex gap-8 text-sm font-medium">
+          {[
+            { key: 'windows', label: '窗户与门' },
+            { key: 'inspiration', label: '灵感' },
+            { key: 'support', label: '服务支持' },
+            { key: 'docs', label: '技术文档' },
+            { key: 'pros', label: '专业人士' },
+          ].map(function(item) {
+            return (
+              <li key={item.key} className="py-2">
+                <button
+                  onClick={function() {
+                    if (menuOpen === item.key) {
+                      setMenuOpen(null);
+                    } else {
+                      setMenuOpen(item.key);
+                      setSearchOpen(false);
+                    }
+                  }}
+                  className={menuOpen === item.key ? 'text-red-700 border-b-2 border-red-700' : 'text-gray-800 hover:text-red-700'}
+                >
+                  {item.label}
+                </button>
+              </li>
+            );
+          })}
         </ul>
 
         <div className="flex items-center gap-3">
@@ -124,7 +84,7 @@ function Navbar() {
             获取报价
           </button>
           <button
-            onClick={toggleSearch}
+            onClick={function() { setSearchOpen(!searchOpen); setMenuOpen(null); }}
             className={
               'w-9 h-9 rounded-full flex items-center justify-center transition-colors ' +
               (searchOpen ? 'bg-red-700 text-white' : 'text-gray-700 hover:bg-gray-100')
@@ -137,7 +97,6 @@ function Navbar() {
         </div>
       </nav>
 
-      {/* 搜索栏 */}
       {searchOpen && (
         <div className="bg-white border-b px-8 py-4 shadow-md">
           <div className="max-w-3xl mx-auto flex border-2 border-gray-300 rounded">
@@ -155,26 +114,25 @@ function Navbar() {
         </div>
       )}
 
-      {/* 窗户与门下拉菜单 */}
       {menuOpen === 'windows' && (
         <div className="fixed top-24 left-0 right-0 bg-white shadow-2xl border-t z-50">
           <div className="max-w-6xl mx-auto px-8 py-8 grid grid-cols-4 gap-8">
             <div>
-              <div className="font-black text-gray-900 text-base mb-4">窗户</div>
+              <div className="font-black text-gray-900 mb-4">窗户</div>
               <ul className="flex flex-col gap-3 text-gray-700 text-sm">
                 {['推拉窗', '平开窗', '天窗', '百叶窗', '图片窗', '特种窗', '替换窗'].map(function(item) {
-                  return <li key={item} className="hover:text-red-700 cursor-pointer flex items-center gap-2">🪟 {item}</li>;
+                  return <li key={item} className="hover:text-red-700 cursor-pointer">🪟 {item}</li>;
                 })}
-                <li className="font-bold cursor-pointer hover:text-red-700 mt-1">查看全部</li>
+                <li className="font-bold hover:text-red-700 cursor-pointer mt-1">查看全部</li>
               </ul>
             </div>
             <div>
-              <div className="font-black text-gray-900 text-base mb-4">门</div>
+              <div className="font-black text-gray-900 mb-4">门</div>
               <ul className="flex flex-col gap-3 text-gray-700 text-sm">
                 {['入户门', '落地玻璃门', '推拉门', '折叠门', '纱门', '替换门'].map(function(item) {
-                  return <li key={item} className="hover:text-red-700 cursor-pointer flex items-center gap-2">🚪 {item}</li>;
+                  return <li key={item} className="hover:text-red-700 cursor-pointer">🚪 {item}</li>;
                 })}
-                <li className="font-bold cursor-pointer hover:text-red-700 mt-1">查看全部</li>
+                <li className="font-bold hover:text-red-700 cursor-pointer mt-1">查看全部</li>
               </ul>
             </div>
             <div className="col-span-2 grid grid-cols-2 gap-4">
@@ -185,11 +143,8 @@ function Navbar() {
                 { title: '认证承包商', img: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=300' },
               ].map(function(card) {
                 return (
-                  <div
-                    key={card.title}
-                    className="relative cursor-pointer group rounded overflow-hidden"
-                    onClick={function() { navigate('/products'); setMenuOpen(null); }}
-                  >
+                  <div key={card.title} className="relative cursor-pointer group rounded overflow-hidden"
+                    onClick={function() { navigate('/products'); setMenuOpen(null); }}>
                     <img src={card.img} alt={card.title} className="w-full h-32 object-cover" />
                     <div className="absolute bottom-3 left-0 right-0 flex justify-center">
                       <span className="bg-white border-2 border-red-700 text-red-700 text-xs font-bold px-3 py-1 rounded-full group-hover:bg-red-700 group-hover:text-white transition-colors">
@@ -204,12 +159,11 @@ function Navbar() {
         </div>
       )}
 
-      {/* 灵感下拉菜单 */}
       {menuOpen === 'inspiration' && (
         <div className="fixed top-24 left-0 right-0 bg-white shadow-2xl border-t z-50">
           <div className="max-w-6xl mx-auto px-8 py-8 grid grid-cols-3 gap-8">
             <div>
-              <div className="font-black text-gray-900 text-base mb-4">灵感来源</div>
+              <div className="font-black text-gray-900 mb-4">灵感来源</div>
               <ul className="flex flex-col gap-3 text-gray-700 text-sm">
                 {['博客', '项目展示', '图片画廊', '按房间选窗', '查看全部'].map(function(item) {
                   return <li key={item} className="hover:text-red-700 cursor-pointer">{item}</li>;
@@ -237,12 +191,11 @@ function Navbar() {
         </div>
       )}
 
-      {/* 服务支持下拉菜单 */}
       {menuOpen === 'support' && (
         <div className="fixed top-24 left-0 right-0 bg-white shadow-2xl border-t z-50">
           <div className="max-w-6xl mx-auto px-8 py-8 grid grid-cols-3 gap-8">
             <div>
-              <div className="font-black text-gray-900 text-base mb-4">服务支持</div>
+              <div className="font-black text-gray-900 mb-4">服务支持</div>
               <ul className="flex flex-col gap-3 text-gray-700 text-sm">
                 {['常见问题', '产品支持', '质保信息', '安装指南', '联系我们'].map(function(item) {
                   return <li key={item} className="hover:text-red-700 cursor-pointer">{item}</li>;
@@ -270,12 +223,11 @@ function Navbar() {
         </div>
       )}
 
-      {/* 技术文档下拉菜单 */}
       {menuOpen === 'docs' && (
         <div className="fixed top-24 left-0 right-0 bg-white shadow-2xl border-t z-50">
           <div className="max-w-6xl mx-auto px-8 py-8 grid grid-cols-3 gap-8">
             <div>
-              <div className="font-black text-gray-900 text-base mb-4">技术文档</div>
+              <div className="font-black text-gray-900 mb-4">技术文档</div>
               <ul className="flex flex-col gap-3 text-gray-700 text-sm">
                 {['产品详情', '尺寸文档', '性能数据', '安装指南', '质保文件'].map(function(item) {
                   return <li key={item} className="hover:text-red-700 cursor-pointer">{item}</li>;
@@ -303,12 +255,11 @@ function Navbar() {
         </div>
       )}
 
-      {/* 专业人士下拉菜单 */}
       {menuOpen === 'pros' && (
         <div className="fixed top-24 left-0 right-0 bg-white shadow-2xl border-t z-50">
           <div className="max-w-6xl mx-auto px-8 py-8 grid grid-cols-3 gap-8">
             <div>
-              <div className="font-black text-gray-900 text-base mb-4">专业人士</div>
+              <div className="font-black text-gray-900 mb-4">专业人士</div>
               <ul className="flex flex-col gap-3 text-gray-700 text-sm">
                 {['建筑师', '建筑商', '承包商', '开发商', '经销商'].map(function(item) {
                   return <li key={item} className="hover:text-red-700 cursor-pointer">{item}</li>;
