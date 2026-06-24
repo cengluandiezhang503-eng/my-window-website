@@ -18,8 +18,7 @@ import ProductDetail from './ProductDetail';
 
 function Home() {
   return (
-    <div>
-      <Navbar />
+    <div className="pt-24">
       <Hero />
       <Products />
       <Stats />
@@ -39,6 +38,7 @@ function Home() {
 function App() {
   return (
     <BrowserRouter>
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/admin" element={<Admin />} />
