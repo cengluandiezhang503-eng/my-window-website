@@ -7,19 +7,17 @@ function Navbar() {
 
   return (
     <header>
-      {/* 顶部工具栏 */}
       <div className="bg-gray-100 border-b text-sm py-2 px-8 flex justify-between items-center">
         <div className="flex gap-6 text-gray-600">
-          <a href="#" className="hover:text-gray-900">经销商查询</a>
-          <a href="#" className="hover:text-gray-900">认证承包商</a>
-          <a href="#" className="hover:text-gray-900">安装服务</a>
+          <button className="hover:text-gray-900">经销商查询</button>
+          <button className="hover:text-gray-900">认证承包商</button>
+          <button className="hover:text-gray-900">安装服务</button>
         </div>
         <div className="flex gap-6 text-gray-600">
-          <a href="tel:400-123-4567" className="hover:text-gray-900 font-medium">📞 400-123-4567</a>
+          <span className="font-medium">📞 400-123-4567</span>
         </div>
       </div>
 
-      {/* 主导航栏 */}
       <nav className="bg-white border-b shadow-sm px-8 py-4 flex justify-between items-center">
         <div
           className="text-2xl font-bold text-gray-900 cursor-pointer"
@@ -53,7 +51,10 @@ function Navbar() {
               </div>
             )}
           </li>
-          <li className="hover:text-red-700 cursor-pointer" onClick={function() { navigate('/products'); }}>
+          <li
+            className="hover:text-red-700 cursor-pointer"
+            onClick={function() { navigate('/products'); }}
+          >
             所有产品
           </li>
           <li className="hover:text-red-700 cursor-pointer">灵感</li>
