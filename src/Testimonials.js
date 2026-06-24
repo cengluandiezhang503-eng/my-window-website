@@ -9,7 +9,7 @@ function Testimonials() {
     },
     {
       id: 2,
-      name: "李女士",
+      name: "Keith先生",
       location: "北京",
       comment: "服务态度很好，报价透明，安装团队非常认真负责！",
       stars: 5
