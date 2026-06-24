@@ -52,8 +52,8 @@ function Navbar() {
             </button>
 
             {menuOpen === 'windows' && (
-              <div className="absolute top-10 left-0 bg-white shadow-2xl border-t w-screen max-w-4xl z-50">
-                <div className="px-8 py-8 grid grid-cols-4 gap-8">
+              <div className="fixed top-24 left-0 right-0 bg-white shadow-2xl border-t z-50">
+                <div className="max-w-6xl mx-auto px-8 py-8 grid grid-cols-4 gap-8">
                   <div>
                     <div className="font-black text-gray-900 text-base mb-4">窗户</div>
                     <ul className="flex flex-col gap-3 text-gray-700 text-sm">
@@ -110,14 +110,33 @@ function Navbar() {
             </button>
 
             {menuOpen === 'inspiration' && (
-              <div className="absolute top-10 left-0 bg-white shadow-2xl border-t w-96 z-50">
-                <div className="px-8 py-8">
-                  <div className="font-black text-gray-900 text-base mb-4">灵感来源</div>
-                  <ul className="flex flex-col gap-3 text-gray-700 text-sm">
-                    {['博客', '项目展示', '图片画廊', '按房间选窗', '查看全部'].map(function(item) {
-                      return <li key={item} className="hover:text-red-700 cursor-pointer">{item}</li>;
+              <div className="fixed top-24 left-0 right-0 bg-white shadow-2xl border-t z-50">
+                <div className="max-w-6xl mx-auto px-8 py-8 grid grid-cols-3 gap-8">
+                  <div>
+                    <div className="font-black text-gray-900 text-base mb-4">灵感来源</div>
+                    <ul className="flex flex-col gap-3 text-gray-700 text-sm">
+                      {['博客', '项目展示', '图片画廊', '按房间选窗', '查看全部'].map(function(item) {
+                        return <li key={item} className="hover:text-red-700 cursor-pointer">{item}</li>;
+                      })}
+                    </ul>
+                  </div>
+                  <div className="col-span-2 grid grid-cols-2 gap-4">
+                    {[
+                      { title: '探索博客', img: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=300' },
+                      { title: '图片画廊', img: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=300' },
+                    ].map(function(card) {
+                      return (
+                        <div key={card.title} className="relative cursor-pointer group rounded overflow-hidden">
+                          <img src={card.img} alt={card.title} className="w-full h-32 object-cover" />
+                          <div className="absolute bottom-3 left-0 right-0 flex justify-center">
+                            <span className="bg-white border-2 border-red-700 text-red-700 text-xs font-bold px-3 py-1 rounded-full group-hover:bg-red-700 group-hover:text-white transition-colors">
+                              {card.title}
+                            </span>
+                          </div>
+                        </div>
+                      );
                     })}
-                  </ul>
+                  </div>
                 </div>
               </div>
             )}
@@ -133,14 +152,33 @@ function Navbar() {
             </button>
 
             {menuOpen === 'support' && (
-              <div className="absolute top-10 left-0 bg-white shadow-2xl border-t w-96 z-50">
-                <div className="px-8 py-8">
-                  <div className="font-black text-gray-900 text-base mb-4">服务支持</div>
-                  <ul className="flex flex-col gap-3 text-gray-700 text-sm">
-                    {['常见问题', '产品支持', '质保信息', '安装指南', '联系我们'].map(function(item) {
-                      return <li key={item} className="hover:text-red-700 cursor-pointer">{item}</li>;
+              <div className="fixed top-24 left-0 right-0 bg-white shadow-2xl border-t z-50">
+                <div className="max-w-6xl mx-auto px-8 py-8 grid grid-cols-3 gap-8">
+                  <div>
+                    <div className="font-black text-gray-900 text-base mb-4">服务支持</div>
+                    <ul className="flex flex-col gap-3 text-gray-700 text-sm">
+                      {['常见问题', '产品支持', '质保信息', '安装指南', '联系我们'].map(function(item) {
+                        return <li key={item} className="hover:text-red-700 cursor-pointer">{item}</li>;
+                      })}
+                    </ul>
+                  </div>
+                  <div className="col-span-2 grid grid-cols-2 gap-4">
+                    {[
+                      { title: '常见问题', img: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=300' },
+                      { title: '联系我们', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300' },
+                    ].map(function(card) {
+                      return (
+                        <div key={card.title} className="relative cursor-pointer group rounded overflow-hidden">
+                          <img src={card.img} alt={card.title} className="w-full h-32 object-cover" />
+                          <div className="absolute bottom-3 left-0 right-0 flex justify-center">
+                            <span className="bg-white border-2 border-red-700 text-red-700 text-xs font-bold px-3 py-1 rounded-full group-hover:bg-red-700 group-hover:text-white transition-colors">
+                              {card.title}
+                            </span>
+                          </div>
+                        </div>
+                      );
                     })}
-                  </ul>
+                  </div>
                 </div>
               </div>
             )}
@@ -156,14 +194,33 @@ function Navbar() {
             </button>
 
             {menuOpen === 'docs' && (
-              <div className="absolute top-10 left-0 bg-white shadow-2xl border-t w-96 z-50">
-                <div className="px-8 py-8">
-                  <div className="font-black text-gray-900 text-base mb-4">技术文档</div>
-                  <ul className="flex flex-col gap-3 text-gray-700 text-sm">
-                    {['产品详情', '尺寸文档', '性能数据', '安装指南', '质保文件'].map(function(item) {
-                      return <li key={item} className="hover:text-red-700 cursor-pointer">{item}</li>;
+              <div className="fixed top-24 left-0 right-0 bg-white shadow-2xl border-t z-50">
+                <div className="max-w-6xl mx-auto px-8 py-8 grid grid-cols-3 gap-8">
+                  <div>
+                    <div className="font-black text-gray-900 text-base mb-4">技术文档</div>
+                    <ul className="flex flex-col gap-3 text-gray-700 text-sm">
+                      {['产品详情', '尺寸文档', '性能数据', '安装指南', '质保文件'].map(function(item) {
+                        return <li key={item} className="hover:text-red-700 cursor-pointer">{item}</li>;
+                      })}
+                    </ul>
+                  </div>
+                  <div className="col-span-2 grid grid-cols-2 gap-4">
+                    {[
+                      { title: '产品指南', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300' },
+                      { title: '安装资源', img: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=300' },
+                    ].map(function(card) {
+                      return (
+                        <div key={card.title} className="relative cursor-pointer group rounded overflow-hidden">
+                          <img src={card.img} alt={card.title} className="w-full h-32 object-cover" />
+                          <div className="absolute bottom-3 left-0 right-0 flex justify-center">
+                            <span className="bg-white border-2 border-red-700 text-red-700 text-xs font-bold px-3 py-1 rounded-full group-hover:bg-red-700 group-hover:text-white transition-colors">
+                              {card.title}
+                            </span>
+                          </div>
+                        </div>
+                      );
                     })}
-                  </ul>
+                  </div>
                 </div>
               </div>
             )}
@@ -179,14 +236,33 @@ function Navbar() {
             </button>
 
             {menuOpen === 'pros' && (
-              <div className="absolute top-10 left-0 bg-white shadow-2xl border-t w-96 z-50">
-                <div className="px-8 py-8">
-                  <div className="font-black text-gray-900 text-base mb-4">专业人士</div>
-                  <ul className="flex flex-col gap-3 text-gray-700 text-sm">
-                    {['建筑师', '建筑商', '承包商', '开发商', '经销商'].map(function(item) {
-                      return <li key={item} className="hover:text-red-700 cursor-pointer">{item}</li>;
+              <div className="fixed top-24 left-0 right-0 bg-white shadow-2xl border-t z-50">
+                <div className="max-w-6xl mx-auto px-8 py-8 grid grid-cols-3 gap-8">
+                  <div>
+                    <div className="font-black text-gray-900 text-base mb-4">专业人士</div>
+                    <ul className="flex flex-col gap-3 text-gray-700 text-sm">
+                      {['建筑师', '建筑商', '承包商', '开发商', '经销商'].map(function(item) {
+                        return <li key={item} className="hover:text-red-700 cursor-pointer">{item}</li>;
+                      })}
+                    </ul>
+                  </div>
+                  <div className="col-span-2 grid grid-cols-2 gap-4">
+                    {[
+                      { title: '建筑师资源', img: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=300' },
+                      { title: '承包商资源', img: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=300' },
+                    ].map(function(card) {
+                      return (
+                        <div key={card.title} className="relative cursor-pointer group rounded overflow-hidden">
+                          <img src={card.img} alt={card.title} className="w-full h-32 object-cover" />
+                          <div className="absolute bottom-3 left-0 right-0 flex justify-center">
+                            <span className="bg-white border-2 border-red-700 text-red-700 text-xs font-bold px-3 py-1 rounded-full group-hover:bg-red-700 group-hover:text-white transition-colors">
+                              {card.title}
+                            </span>
+                          </div>
+                        </div>
+                      );
                     })}
-                  </ul>
+                  </div>
                 </div>
               </div>
             )}
