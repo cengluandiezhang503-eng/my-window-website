@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import Footer from './Footer';
 
 function ProductDetail() {
   const { id } = useParams();
@@ -75,41 +76,41 @@ function ProductDetail() {
 
   const faqs = [
     {
-      question: '什么是飘窗？',
-      answer: '飘窗是将三扇或更多窗户组合成一个单元，窗户以不同角度排列。一种流行的变体是弧形窗，四扇或更多窗户呈弧形排列。'
+      question: '什么是' + product.name + '？',
+      answer: product.name + '是将三扇或更多窗户组合成一个单元，窗户以不同角度排列。一种流行的变体是弧形窗，四扇或更多窗户呈弧形排列。'
     },
     {
-      question: '飘窗最适合安装在哪里？',
-      answer: '由于其戏剧性和美观性，飘窗通常安装在家中的聚会空间。它们在客厅或餐厅中特别有影响力，也非常适合面向街道的房间。'
+      question: product.name + '最适合安装在哪里？',
+      answer: '由于其戏剧性和美观性，' + product.name + '通常安装在家中的聚会空间。它们在客厅或餐厅中特别有影响力，也非常适合面向街道的房间。'
     },
     {
-      question: '飘窗有多大？',
-      answer: '飘窗的尺寸可以根据您的需求定制。我们提供多种尺寸选择，您可以联系我们的专家获取详细的尺寸信息。'
+      question: product.name + '有多大？',
+      answer: product.name + '的尺寸可以根据您的需求定制。我们提供多种尺寸选择，您可以联系我们的专家获取详细的尺寸信息。'
     },
     {
-      question: '飘窗的优点是什么？',
-      answer: '飘窗为家庭增添了很多价值，包括：多角度窗户创造的全景视野、多窗户带来的更多自然光、向外延伸创造的额外空间、独特外观增添的特色。'
+      question: product.name + '的优点是什么？',
+      answer: product.name + '为家庭增添了很多价值，包括：多角度窗户创造的全景视野、更多自然光、额外空间以及独特外观增添的特色。'
     },
     {
-      question: '飘窗的费用是多少？',
-      answer: '飘窗的确切费用取决于许多不同因素，包括所选产品系列。一般来说，飘窗比其他类型的窗户更贵，因为它们由多个窗户组成。请联系我们获取免费报价。'
+      question: product.name + '的费用是多少？',
+      answer: '费用取决于许多不同因素，包括所选产品系列。请联系我们获取免费报价。'
     }
   ];
 
   const series = [
     {
       name: '400系列',
-      tag: '飘窗与弧形窗',
-      price: '从 ¥12,999 起',
+      tag: product.name,
+      price: product.price,
       features: ['可与平开窗组合：30°、45°和90°角', '可与上下推拉窗组合：30°、45°角', '木材由乙烯基或复合材料保护'],
       colors: ['#FFFFFF', '#000000', '#8B4513', '#808080', '#D2691E'],
-      image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600'
+      image: product.image
     },
     {
       name: 'E系列',
-      tag: '飘窗与弧形窗',
-      price: '从 ¥18,999 起',
-      features: ['可与平开窗组合：30°、45°、90°角和10°弧形', '可与上下推拉窗组合：30°、45°角', '木材由铝材保护', '50种标准颜色，9种木材和11种染色'],
+      tag: product.name,
+      price: '从 ¥' + (parseInt(product.price.replace(/[^0-9]/g, '')) + 5000).toLocaleString() + ' 起',
+      features: ['可与平开窗组合：30°、45°、90°角和10°弧形', '可与上下推拉窗组合：30°、45°角', '木材由铝材保护', '50种标准颜色'],
       colors: ['#FFFFFF', '#000000', '#8B4513', '#D2B48C', '#2F4F4F', '#8FBC8F'],
       image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=600'
     }
@@ -161,7 +162,7 @@ function ProductDetail() {
       <div className="bg-gray-50 py-16 px-8">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-2xl font-black text-gray-900 mb-4">探索您的{product.name}选择</h2>
-          <p className="text-gray-600 mb-10">虽然您可以通过墙体框架创建飘窗，但您也可以从我们的工厂订购预组装的飘窗或弧形窗。</p>
+          <p className="text-gray-600 mb-10">我们提供多种系列选择，满足不同需求和预算。</p>
           <div className="grid grid-cols-2 gap-8">
             {series.map(function(s, index) {
               return (
@@ -291,6 +292,7 @@ function ProductDetail() {
         </div>
       </div>
 
+      <Footer />
     </div>
   );
 }
