@@ -3,6 +3,7 @@ import Navbar from './Navbar';
 import Hero from './Hero';
 import ProjectStage from './ProjectStage';
 import PopularProducts from './PopularProducts';
+import WindowExplorer from './WindowExplorer';
 import Products from './Products';
 import Stats from './Stats';
 import WhyUs from './WhyUs';
@@ -24,7 +25,7 @@ function Home() {
       <Hero />
       <ProjectStage />
       <PopularProducts />
-      <Products />
+      <WindowExplorer />
       <Stats />
       <WhyUs />
       <Brands />
