@@ -7,11 +7,8 @@ import WindowExplorer from './WindowExplorer';
 import NextSteps from './NextSteps';
 import WhyTrust from './WhyTrust';
 import ProductSupport from './ProductSupport';
-import Testimonials from './Testimonials';
-import CallToAction from './CallToAction';
-import FAQ from './FAQ';
+import Inspiration from './Inspiration';
 import QuoteForm from './QuoteForm';
-import Contact from './Contact';
 import Footer from './Footer';
 import Admin from './Admin';
 import ProductList from './ProductList';
@@ -27,11 +24,8 @@ function Home() {
       <NextSteps />
       <WhyTrust />
       <ProductSupport />
-      <Testimonials />
-      <CallToAction />
-      <FAQ />
+      <Inspiration />
       <QuoteForm />
-      <Contact />
       <Footer />
     </div>
   );
