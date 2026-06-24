@@ -6,6 +6,20 @@ function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const navigate = useNavigate();
 
+  const toggleMenu = function(menu) {
+    if (menuOpen === menu) {
+      setMenuOpen(null);
+    } else {
+      setMenuOpen(menu);
+      setSearchOpen(false);
+    }
+  };
+
+  const toggleSearch = function() {
+    setSearchOpen(!searchOpen);
+    setMenuOpen(null);
+  };
+
   return (
     <header className="relative z-50">
       {/* 黑色顶部工具栏 */}
@@ -28,7 +42,7 @@ function Navbar() {
         {/* Logo */}
         <div
           className="cursor-pointer flex items-center gap-2 flex-shrink-0"
-          onClick={function() { navigate('/'); }}
+          onClick={function() { navigate('/'); setMenuOpen(null); }}
         >
           <div className="bg-red-700 text-white font-bold px-3 py-2 text-lg">🏠</div>
           <div>
@@ -39,134 +53,60 @@ function Navbar() {
 
         {/* 导航链接 */}
         <ul className="flex gap-8 text-gray-800 font-medium text-sm">
-          <li
-            className="cursor-pointer relative py-2"
-            onMouseEnter={function() { setMenuOpen('windows'); setSearchOpen(false); }}
-            onMouseLeave={function() { setMenuOpen(null); }}
-          >
-            <span className={menuOpen === 'windows' ? 'border-b-2 border-red-700 pb-1' : 'border-b-2 border-transparent pb-1'}>
+          <li className="relative py-2">
+            <button
+              onClick={function() { toggleMenu('windows'); }}
+              className={
+                'font-medium ' +
+                (menuOpen === 'windows' ? 'border-b-2 border-red-700 text-red-700' : 'hover:text-red-700')
+              }
+            >
               窗户与门
-            </span>
-
-            {/* 大型下拉菜单 */}
-            {menuOpen === 'windows' && (
-              <div className="absolute top-12 left-0 bg-white shadow-2xl border rounded p-8 z-50 w-screen max-w-4xl -translate-x-16">
-                <div className="grid grid-cols-3 gap-8">
-                  {/* 第一列：窗户 */}
-                  <div>
-                    <div className="font-black text-gray-900 text-base mb-4">窗户</div>
-                    <ul className="flex flex-col gap-3 text-gray-700 text-sm">
-                      <li className="hover:text-red-700 cursor-pointer flex items-center gap-2">
-                        <span>🪟</span> 推拉窗
-                      </li>
-                      <li className="hover:text-red-700 cursor-pointer flex items-center gap-2">
-                        <span>🪟</span> 平开窗
-                      </li>
-                      <li className="hover:text-red-700 cursor-pointer flex items-center gap-2">
-                        <span>🪟</span> 天窗
-                      </li>
-                      <li className="hover:text-red-700 cursor-pointer flex items-center gap-2">
-                        <span>🪟</span> 百叶窗
-                      </li>
-                      <li className="hover:text-red-700 cursor-pointer flex items-center gap-2">
-                        <span>🪟</span> 图片窗
-                      </li>
-                      <li className="hover:text-red-700 cursor-pointer flex items-center gap-2">
-                        <span>🪟</span> 特种窗
-                      </li>
-                      <li className="font-bold text-gray-900 cursor-pointer hover:text-red-700 mt-2">查看全部</li>
-                    </ul>
-                  </div>
-
-                  {/* 第二列：门 */}
-                  <div>
-                    <div className="font-black text-gray-900 text-base mb-4">门</div>
-                    <ul className="flex flex-col gap-3 text-gray-700 text-sm">
-                      <li className="hover:text-red-700 cursor-pointer flex items-center gap-2">
-                        <span>🚪</span> 入户门
-                      </li>
-                      <li className="hover:text-red-700 cursor-pointer flex items-center gap-2">
-                        <span>🚪</span> 落地玻璃门
-                      </li>
-                      <li className="hover:text-red-700 cursor-pointer flex items-center gap-2">
-                        <span>🚪</span> 推拉门
-                      </li>
-                      <li className="hover:text-red-700 cursor-pointer flex items-center gap-2">
-                        <span>🚪</span> 折叠门
-                      </li>
-                      <li className="hover:text-red-700 cursor-pointer flex items-center gap-2">
-                        <span>🚪</span> 纱门
-                      </li>
-                      <li className="font-bold text-gray-900 cursor-pointer hover:text-red-700 mt-2">查看全部</li>
-                    </ul>
-                  </div>
-
-                  {/* 第三列：图片卡片 */}
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="relative cursor-pointer group">
-                      <img
-                        src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300"
-                        alt="按系列浏览"
-                        className="w-full h-28 object-cover rounded"
-                      />
-                      <div className="absolute bottom-2 left-0 right-0 flex justify-center">
-                        <span className="bg-white border-2 border-red-700 text-red-700 text-xs font-bold px-3 py-1 rounded-full group-hover:bg-red-700 group-hover:text-white transition-colors">
-                          按系列浏览
-                        </span>
-                      </div>
-                    </div>
-                    <div className="relative cursor-pointer group">
-                      <img
-                        src="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=300"
-                        alt="按材质浏览"
-                        className="w-full h-28 object-cover rounded"
-                      />
-                      <div className="absolute bottom-2 left-0 right-0 flex justify-center">
-                        <span className="bg-white border-2 border-red-700 text-red-700 text-xs font-bold px-3 py-1 rounded-full group-hover:bg-red-700 group-hover:text-white transition-colors">
-                          按材质浏览
-                        </span>
-                      </div>
-                    </div>
-                    <div
-                      className="relative cursor-pointer group"
-                      onClick={function() { navigate('/products'); }}
-                    >
-                      <img
-                        src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=300"
-                        alt="所有产品"
-                        className="w-full h-28 object-cover rounded"
-                      />
-                      <div className="absolute bottom-2 left-0 right-0 flex justify-center">
-                        <span className="bg-white border-2 border-red-700 text-red-700 text-xs font-bold px-3 py-1 rounded-full group-hover:bg-red-700 group-hover:text-white transition-colors">
-                          所有产品
-                        </span>
-                      </div>
-                    </div>
-                    <div className="relative cursor-pointer group">
-                      <img
-                        src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=300"
-                        alt="认证承包商"
-                        className="w-full h-28 object-cover rounded"
-                      />
-                      <div className="absolute bottom-2 left-0 right-0 flex justify-center">
-                        <span className="bg-white border-2 border-red-700 text-red-700 text-xs font-bold px-3 py-1 rounded-full group-hover:bg-red-700 group-hover:text-white transition-colors">
-                          认证承包商
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
+            </button>
           </li>
-          <li className="hover:text-red-700 cursor-pointer py-2 border-b-2 border-transparent hover:border-red-700">灵感</li>
-          <li className="hover:text-red-700 cursor-pointer py-2 border-b-2 border-transparent hover:border-red-700">服务支持</li>
-          <li className="hover:text-red-700 cursor-pointer py-2 border-b-2 border-transparent hover:border-red-700">技术文档</li>
-          <li
-            className="hover:text-red-700 cursor-pointer py-2 border-b-2 border-transparent hover:border-red-700"
-            onClick={function() { navigate('/products'); }}
-          >
-            所有产品
+          <li className="relative py-2">
+            <button
+              onClick={function() { toggleMenu('inspiration'); }}
+              className={
+                'font-medium ' +
+                (menuOpen === 'inspiration' ? 'border-b-2 border-red-700 text-red-700' : 'hover:text-red-700')
+              }
+            >
+              灵感
+            </button>
+          </li>
+          <li className="relative py-2">
+            <button
+              onClick={function() { toggleMenu('support'); }}
+              className={
+                'font-medium ' +
+                (menuOpen === 'support' ? 'border-b-2 border-red-700 text-red-700' : 'hover:text-red-700')
+              }
+            >
+              服务支持
+            </button>
+          </li>
+          <li className="relative py-2">
+            <button
+              onClick={function() { toggleMenu('docs'); }}
+              className={
+                'font-medium ' +
+                (menuOpen === 'docs' ? 'border-b-2 border-red-700 text-red-700' : 'hover:text-red-700')
+              }
+            >
+              技术文档
+            </button>
+          </li>
+          <li className="relative py-2">
+            <button
+              onClick={function() { toggleMenu('pros'); }}
+              className={
+                'font-medium ' +
+                (menuOpen === 'pros' ? 'border-b-2 border-red-700 text-red-700' : 'hover:text-red-700')
+              }
+            >
+              专业人士
+            </button>
           </li>
         </ul>
 
@@ -176,18 +116,15 @@ function Navbar() {
             className="border-2 border-red-700 text-red-700 px-6 py-2 rounded-full hover:bg-red-700 hover:text-white font-bold text-sm transition-colors"
             onClick={function() { navigate('/'); }}
           >
-            获取报价 →
+            获取报价
           </button>
           <button
-            onClick={function() { setSearchOpen(!searchOpen); setMenuOpen(null); }}
-            className="text-gray-700 hover:text-gray-900 text-xl font-light"
+            onClick={toggleSearch}
+            className="text-gray-700 hover:text-gray-900"
           >
-            ✕{searchOpen ? '' : ''}
-            {searchOpen ? '✕' : (
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            )}
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
           </button>
         </div>
       </nav>
@@ -208,6 +145,109 @@ function Navbar() {
             </button>
           </div>
         </div>
+      )}
+
+      {/* 窗户与门 下拉菜单 */}
+      {menuOpen === 'windows' && (
+        <div className="absolute w-full bg-white shadow-2xl border-t z-40">
+          <div className="max-w-6xl mx-auto px-8 py-8 grid grid-cols-4 gap-8">
+            {/* 窗户 */}
+            <div>
+              <div className="font-black text-gray-900 text-base mb-4">窗户</div>
+              <ul className="flex flex-col gap-3 text-gray-700 text-sm">
+                {['推拉窗', '平开窗', '天窗', '百叶窗', '图片窗', '特种窗', '替换窗'].map(function(item) {
+                  return (
+                    <li key={item} className="hover:text-red-700 cursor-pointer flex items-center gap-2">
+                      🪟 {item}
+                    </li>
+                  );
+                })}
+                <li className="font-bold text-gray-900 cursor-pointer hover:text-red-700 mt-1">查看全部</li>
+              </ul>
+            </div>
+
+            {/* 门 */}
+            <div>
+              <div className="font-black text-gray-900 text-base mb-4">门</div>
+              <ul className="flex flex-col gap-3 text-gray-700 text-sm">
+                {['入户门', '落地玻璃门', '推拉门', '折叠门', '纱门', '替换门'].map(function(item) {
+                  return (
+                    <li key={item} className="hover:text-red-700 cursor-pointer flex items-center gap-2">
+                      🚪 {item}
+                    </li>
+                  );
+                })}
+                <li className="font-bold text-gray-900 cursor-pointer hover:text-red-700 mt-1">查看全部</li>
+              </ul>
+            </div>
+
+            {/* 图片卡片 */}
+            <div className="col-span-2 grid grid-cols-2 gap-4">
+              {[
+                { title: '按系列浏览', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300' },
+                { title: '按材质浏览', img: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=300' },
+                { title: '所有产品', img: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=300' },
+                { title: '认证承包商', img: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=300' },
+              ].map(function(card) {
+                return (
+                  <div
+                    key={card.title}
+                    className="relative cursor-pointer group rounded overflow-hidden"
+                    onClick={function() { navigate('/products'); setMenuOpen(null); }}
+                  >
+                    <img src={card.img} alt={card.title} className="w-full h-32 object-cover" />
+                    <div className="absolute bottom-3 left-0 right-0 flex justify-center">
+                      <span className="bg-white border-2 border-red-700 text-red-700 text-xs font-bold px-3 py-1 rounded-full group-hover:bg-red-700 group-hover:text-white transition-colors">
+                        {card.title}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 灵感 下拉菜单 */}
+      {menuOpen === 'inspiration' && (
+        <div className="absolute w-full bg-white shadow-2xl border-t z-40">
+          <div className="max-w-6xl mx-auto px-8 py-8 grid grid-cols-3 gap-8">
+            <div>
+              <div className="font-black text-gray-900 text-base mb-4">灵感来源</div>
+              <ul className="flex flex-col gap-3 text-gray-700 text-sm">
+                {['博客', '项目展示', '图片画廊', '按房间选窗', '查看全部'].map(function(item) {
+                  return <li key={item} className="hover:text-red-700 cursor-pointer">{item}</li>;
+                })}
+              </ul>
+            </div>
+            <div className="col-span-2 grid grid-cols-2 gap-4">
+              {[
+                { title: '探索博客', img: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=300' },
+                { title: '图片画廊', img: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=300' },
+              ].map(function(card) {
+                return (
+                  <div key={card.title} className="relative cursor-pointer group rounded overflow-hidden">
+                    <img src={card.img} alt={card.title} className="w-full h-32 object-cover" />
+                    <div className="absolute bottom-3 left-0 right-0 flex justify-center">
+                      <span className="bg-white border-2 border-red-700 text-red-700 text-xs font-bold px-3 py-1 rounded-full group-hover:bg-red-700 group-hover:text-white transition-colors">
+                        {card.title}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 点击空白处关闭菜单 */}
+      {menuOpen && (
+        <div
+          className="fixed inset-0 z-30"
+          onClick={function() { setMenuOpen(null); }}
+        />
       )}
     </header>
   );
