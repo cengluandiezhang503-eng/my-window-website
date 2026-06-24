@@ -14,6 +14,7 @@ import Contact from './Contact';
 import Footer from './Footer';
 import Admin from './Admin';
 import ProductList from './ProductList';
+import ProductDetail from './ProductDetail';
 
 function Home() {
   return (
@@ -42,6 +43,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/products" element={<ProductList />} />
+        <Route path="/products/:id" element={<ProductDetail />} />
       </Routes>
     </BrowserRouter>
   );
