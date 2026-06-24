@@ -13,6 +13,7 @@ import QuoteForm from './QuoteForm';
 import Contact from './Contact';
 import Footer from './Footer';
 import Admin from './Admin';
+import ProductList from './ProductList';
 
 function Home() {
   return (
@@ -40,6 +41,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/products" element={<ProductList />} />
       </Routes>
     </BrowserRouter>
   );
