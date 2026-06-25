@@ -4,6 +4,7 @@ function WaterButton({ children, onClick, className, white }) {
   const [hovered, setHovered] = useState(false);
   const canvasRef = useRef(null);
   const animRef = useRef(null);
+  const stateRef = useRef({ fillLevel: 100, waveOffset: 0 });
   const fillColor = white ? 'rgba(255,255,255,0.95)' : 'rgba(185,28,28,0.95)';
   const textColor = white ? '#111827' : '#ffffff';
 
@@ -11,39 +12,40 @@ function WaterButton({ children, onClick, className, white }) {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    const width = canvas.width;
-    const height = canvas.height;
-
-    let fillLevel = hovered ? 0 : height;
-    let targetLevel = hovered ? 0 : height;
-    let waveOffset = 0;
+    const W = canvas.width;
+    const H = canvas.height;
     let running = true;
 
     function draw() {
       if (!running) return;
-      ctx.clearRect(0, 0, width, height);
+      ctx.clearRect(0, 0, W, H);
 
-      // 目标水位
-      targetLevel = hovered ? 0 : height + 10;
+      const state = stateRef.current;
+      const target = hovered ? 0 : H + 20;
+      const speed = hovered ? 1.2 : 2.5;
 
-      // 缓慢逼近目标
-      fillLevel += (targetLevel - fillLevel) * 0.04;
-
-      waveOffset += 0.05;
-
-      ctx.beginPath();
-      ctx.moveTo(0, height);
-
-      for (let x = 0; x <= width; x += 1) {
-        const wave1 = Math.sin(x * 0.04 + waveOffset) * 5;
-        const wave2 = Math.sin(x * 0.07 - waveOffset * 1.3) * 3;
-        ctx.lineTo(x, fillLevel + wave1 + wave2);
+      if (Math.abs(state.fillLevel - target) > 0.5) {
+        state.fillLevel += (target - state.fillLevel) * (speed / 100);
       }
 
-      ctx.lineTo(width, height);
-      ctx.lineTo(0, height);
-      ctx.closePath();
+      state.waveOffset += hovered ? 0.06 : 0.02;
 
+      const waveHeight = hovered ? 4 : 1;
+
+      ctx.beginPath();
+      ctx.moveTo(0, H);
+
+      for (let x = 0; x <= W; x++) {
+        const y = state.fillLevel
+          + Math.sin(x * 0.05 + state.waveOffset) * waveHeight
+          + Math.sin(x * 0.09 - state.waveOffset * 0.7) * (waveHeight * 0.6)
+          + Math.sin(x * 0.03 + state.waveOffset * 1.3) * (waveHeight * 0.4);
+        ctx.lineTo(x, y);
+      }
+
+      ctx.lineTo(W, H);
+      ctx.lineTo(0, H);
+      ctx.closePath();
       ctx.fillStyle = fillColor;
       ctx.fill();
 
@@ -69,10 +71,10 @@ function WaterButton({ children, onClick, className, white }) {
       <canvas
         ref={canvasRef}
         width={300}
-        height={50}
+        height={60}
         style={{
           position: 'absolute',
-          top: 0,
+          bottom: 0,
           left: 0,
           width: '100%',
           height: '100%',
@@ -84,7 +86,7 @@ function WaterButton({ children, onClick, className, white }) {
           position: 'relative',
           zIndex: 1,
           color: hovered ? textColor : 'inherit',
-          transition: 'color 0.3s ease'
+          transition: 'color 0.4s ease'
         }}
       >
         {children}
