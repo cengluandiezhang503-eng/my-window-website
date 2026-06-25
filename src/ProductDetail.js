@@ -151,12 +151,12 @@ function ProductDetail() {
           <div className="flex gap-4">
             <button
               onClick={function() { navigate('/products'); }}
-              className="btn-fill border-2 border-white text-white px-8 py-3 rounded-full font-bold text-sm"
+              className="btn-water border-2 border-white text-white px-8 py-3 rounded-full font-bold text-sm"
             >
               比较产品 →
             </button>
             <button
-              className="btn-fill border-2 border-white text-white px-8 py-3 rounded-full font-bold text-sm"
+              className="btn-water border-2 border-white text-white px-8 py-3 rounded-full font-bold text-sm"
             >
               开始设计 →
             </button>
@@ -194,7 +194,7 @@ function ProductDetail() {
                         );
                       })}
                     </div>
-                    <button className="btn-fill-red border-2 border-red-700 text-red-700 px-6 py-2 rounded-full font-bold text-sm">
+                    <button className="btn-water-red border-2 border-red-700 text-red-700 px-6 py-2 rounded-full font-bold text-sm">
                       查看产品 →
                     </button>
                   </div>
@@ -291,7 +291,7 @@ function ProductDetail() {
           <p className="text-gray-600 mb-6">从我们专业的代表处获得个性化指导——无压力，只有专家建议。</p>
           <button
             onClick={function() { navigate('/'); }}
-            className="btn-fill-red border-2 border-red-700 text-red-700 px-8 py-3 rounded-full font-bold"
+            className="btn-water-red border-2 border-red-700 text-red-700 px-8 py-3 rounded-full font-bold"
           >
             立即联系 →
           </button>
