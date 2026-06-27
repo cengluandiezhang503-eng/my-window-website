@@ -31,15 +31,23 @@ function Home() {
   );
 }
 
+function WithNav({ children }) {
+  return (
+    <>
+      <Navbar />
+      {children}
+    </>
+  );
+}
+
 function App() {
   return (
     <BrowserRouter>
-      <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
         <Route path="/admin" element={<Admin />} />
-        <Route path="/products" element={<ProductList />} />
-        <Route path="/products/:id" element={<ProductDetail />} />
+        <Route path="/" element={<WithNav><Home /></WithNav>} />
+        <Route path="/products" element={<WithNav><ProductList /></WithNav>} />
+        <Route path="/products/:id" element={<WithNav><ProductDetail /></WithNav>} />
       </Routes>
     </BrowserRouter>
   );
