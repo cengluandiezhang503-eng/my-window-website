@@ -4,7 +4,7 @@ function Admin() {
   const [activeNav, setActiveNav] = useState('dashboard');
   const [products, setProducts] = useState([]);
   const [quotes, setQuotes] = useState([]);
-  const [loading, setLoading] = useState(true);
+  
   const [searchQuery, setSearchQuery] = useState('');
   const [showAddProduct, setShowAddProduct] = useState(false);
   const [newProduct, setNewProduct] = useState({ name: '', description: '', price: '', category: '', image: '' });
