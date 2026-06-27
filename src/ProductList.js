@@ -190,7 +190,7 @@ function ProductList() {
 }
 
 function ProductCard({ product, onClick }) {
-  const [hovered, setHovered] = useState(false);
+  
   const [favorite, setFavorite] = useState(false);
 
   return (
