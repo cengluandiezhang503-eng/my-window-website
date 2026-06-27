@@ -5,9 +5,9 @@ function Admin() {
   const [products, setProducts] = useState([]);
   const [quotes, setQuotes] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [showAddProduct, setShowAddProduct] = useState(false);
+  
   const [newProduct, setNewProduct] = useState({ name:'', description:'', price:'', category:'', image:'' });
-  const [editingQuote, setEditingQuote] = useState(null);
+  
 
   useEffect(function() {
     fetch('https://window-server.onrender.com/api/products').then(r=>r.json()).then(setProducts);
@@ -16,23 +16,6 @@ function Admin() {
 
   const pending = quotes.filter(q=>q.status==='待跟进').length;
 
-  const navItems = [
-    { section: null, items: [
-      { id:'dashboard', icon:'🏠', label:'主页' },
-      { id:'quotes', icon:'📋', label:'订单', badge: pending },
-    ]},
-    { section: null, items: [
-      { id:'products', icon:'◎', label:'产品', children: ['产品系列','库存','采购订单','转移','礼品卡'] },
-      { id:'customers', icon:'👤', label:'客户' },
-      { id:'analytics', icon:'📈', label:'分析' },
-    ]},
-    { section: '销售渠道', items: [
-      { id:'store', icon:'🛍️', label:'在线商店' },
-    ]},
-    { section: null, items: [
-      { id:'settings', icon:'⚙️', label:'设置' },
-    ]},
-  ];
 
   const S = {
     wrap: { display:'flex', height:'100vh', background:'#f1f1f1', fontFamily:'-apple-system,BlinkMacSystemFont,system-ui,sans-serif', fontSize:'14px' },
