@@ -5,8 +5,9 @@ function Admin() {
   const [products, setProducts] = useState([]);
   const [quotes, setQuotes] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [showAdd, setShowAdd] = useState(false);
-  const [newProd, setNewProd] = useState({ name:'', description:'', price:'', category:'', image:'' });
+  const [showAddProduct, setShowAddProduct] = useState(false);
+  const [newProduct, setNewProduct] = useState({ name:'', description:'', price:'', category:'', image:'' });
+  const [editingQuote, setEditingQuote] = useState(null);
 
   useEffect(function() {
     fetch('https://window-server.onrender.com/api/products').then(r=>r.json()).then(setProducts);
@@ -14,200 +15,168 @@ function Admin() {
   }, []);
 
   const pending = quotes.filter(q=>q.status==='待跟进').length;
-  const titles = {dashboard:'控制台',products:'产品管理',series:'产品系列',quotes:'报价管理',customers:'客户管理',analytics:'数据分析',emails:'邮件记录',settings:'系统设置'};
 
-  const ni = (id,icon,label,badge) => {
-    const on = activeNav===id;
-    return (
-      <div key={id} onClick={()=>setActiveNav(id)} style={{display:'flex',alignItems:'center',gap:'9px',padding:'8px 14px',cursor:'pointer',color:on?'#818cf8':'#5050a0',background:on?'#13132a':'transparent',borderLeft:on?'2px solid #818cf8':'2px solid transparent',transition:'all 0.15s',fontSize:'12px'}}>
-        <span style={{fontSize:'15px'}}>{icon}</span>
-        <span style={{flex:1}}>{label}</span>
-        {badge>0&&<span style={{background:'#4f46e5',color:'#fff',fontSize:'10px',padding:'1px 6px',borderRadius:'8px'}}>{badge}</span>}
-      </div>
-    );
-  };
+  const navItems = [
+    { section: null, items: [
+      { id:'dashboard', icon:'🏠', label:'主页' },
+      { id:'quotes', icon:'📋', label:'订单', badge: pending },
+    ]},
+    { section: null, items: [
+      { id:'products', icon:'◎', label:'产品', children: ['产品系列','库存','采购订单','转移','礼品卡'] },
+      { id:'customers', icon:'👤', label:'客户' },
+      { id:'analytics', icon:'📈', label:'分析' },
+    ]},
+    { section: '销售渠道', items: [
+      { id:'store', icon:'🛍️', label:'在线商店' },
+    ]},
+    { section: null, items: [
+      { id:'settings', icon:'⚙️', label:'设置' },
+    ]},
+  ];
 
-  const pill = (cat) => {
-    const map = {窗户:{bg:'#13132a',c:'#818cf8'},门:{bg:'#0a2a1a',c:'#34d399'}};
-    const s = map[cat]||{bg:'#2a1a0a',c:'#fbbf24'};
-    return <span style={{background:s.bg,color:s.c,padding:'2px 8px',borderRadius:'20px',fontSize:'10px',fontWeight:'600'}}>{cat}</span>;
+  const S = {
+    wrap: { display:'flex', height:'100vh', background:'#f1f1f1', fontFamily:'-apple-system,BlinkMacSystemFont,system-ui,sans-serif', fontSize:'14px' },
+    sb: { width:'240px', flexShrink:0, background:'#1a1a2e', display:'flex', flexDirection:'column', overflow:'hidden' },
+    sbTop: { padding:'16px', display:'flex', alignItems:'center', gap:'10px', borderBottom:'1px solid #252540' },
+    sbStore: { width:'32px', height:'32px', background:'#4f46e5', borderRadius:'8px', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'16px', color:'#fff' },
+    sbNav: { flex:1, overflowY:'auto', padding:'8px 0' },
+    ni: (active) => ({ display:'flex', alignItems:'center', gap:'10px', padding:'8px 12px', cursor:'pointer', color: active?'#fff':'#9090b0', background: active?'rgba(255,255,255,0.1)':'transparent', borderRadius:'8px', margin:'1px 8px', fontSize:'13px', fontWeight: active?'500':'400', transition:'all 0.15s' }),
+    sec: { padding:'12px 20px 4px', fontSize:'11px', color:'#5050a0', letterSpacing:'0.5px' },
+    child: { display:'flex', alignItems:'center', padding:'6px 12px 6px 42px', cursor:'pointer', color:'#7070a0', fontSize:'13px', borderRadius:'8px', margin:'1px 8px' },
+    main: { flex:1, display:'flex', flexDirection:'column', overflow:'hidden' },
+    topbar: { height:'56px', background:'#fff', borderBottom:'1px solid #e5e5e5', display:'flex', alignItems:'center', padding:'0 20px', gap:'12px' },
+    content: { flex:1, overflowY:'auto', padding:'20px', background:'#f1f1f1' },
+    card: { background:'#fff', borderRadius:'12px', border:'1px solid #e5e5e5', overflow:'hidden', marginBottom:'16px' },
+    cardHeader: { padding:'16px 20px', borderBottom:'1px solid #f0f0f0', display:'flex', alignItems:'center', justifyContent:'space-between' },
+    cardTitle: { fontSize:'14px', fontWeight:'600', color:'#1a1a1a' },
+    btn: (color) => ({ background: color||'#fff', color: color?'#fff':'#1a1a1a', border: color?'none':'1px solid #d0d0d0', borderRadius:'8px', padding:'8px 16px', cursor:'pointer', fontSize:'13px', fontWeight:'500' }),
+    input: { width:'100%', border:'1px solid #d0d0d0', borderRadius:'8px', padding:'9px 12px', fontSize:'14px', outline:'none', boxSizing:'border-box', color:'#1a1a1a' },
+    label: { fontSize:'13px', fontWeight:'500', color:'#1a1a1a', marginBottom:'6px', display:'block' },
+    badge: (color) => ({ background: color==='yellow'?'#fff3cd': color==='green'?'#d1fae5': '#ddd', color: color==='yellow'?'#92400e': color==='green'?'#065f46':'#555', padding:'3px 10px', borderRadius:'20px', fontSize:'12px', fontWeight:'500' }),
   };
 
   return (
-    <div style={{display:'flex',height:'100vh',background:'#0a0a0f',color:'#e0e0e8',fontFamily:'system-ui,sans-serif',fontSize:'13px',overflow:'hidden'}}>
+    <div style={S.wrap}>
 
-      <div style={{width:'200px',flexShrink:0,background:'#0d0d14',borderRight:'1px solid #1e1e2e',display:'flex',flexDirection:'column'}}>
-        <div style={{padding:'16px',borderBottom:'1px solid #1e1e2e',display:'flex',alignItems:'center',gap:'10px'}}>
-          <div style={{width:'30px',height:'30px',background:'#4f46e5',borderRadius:'7px',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'15px'}}>🏠</div>
+      {/* 侧边栏 */}
+      <div style={S.sb}>
+        <div style={S.sbTop}>
+          <div style={S.sbStore}>🏠</div>
           <div>
-            <div style={{fontSize:'13px',fontWeight:'700',color:'#fff'}}>WindowOS</div>
-            <div style={{fontSize:'9px',color:'#3a3a5a',letterSpacing:'2px'}}>ADMIN v2.0</div>
+            <div style={{ fontSize:'13px', fontWeight:'600', color:'#fff' }}>我的窗户公司</div>
+            <div style={{ fontSize:'11px', color:'#5050a0' }}>管理后台</div>
           </div>
         </div>
 
-        <div style={{flex:1,padding:'10px 0',overflowY:'auto'}}>
-          <div style={{padding:'8px 14px 3px',fontSize:'9px',color:'#2a2a4a',letterSpacing:'2px',textTransform:'uppercase'}}>Main</div>
-          {ni('dashboard','⊞','Dashboard',0)}
-          {ni('products','◈','Products',products.length)}
-          {ni('series','◧','Series',0)}
-          {ni('quotes','◎','Quotes',pending)}
-          <div style={{padding:'12px 14px 3px',fontSize:'9px',color:'#2a2a4a',letterSpacing:'2px',textTransform:'uppercase'}}>System</div>
-          {ni('customers','◉','Customers',0)}
-          {ni('analytics','▣','Analytics',0)}
-          {ni('emails','◈','Emails',0)}
-          {ni('settings','⚙','Settings',0)}
-        </div>
+        <div style={S.sbNav}>
+          <div style={{ padding:'8px 8px 4px' }}>
+            {[
+              { id:'dashboard', icon:'🏠', label:'主页' },
+              { id:'quotes', icon:'📋', label:'订单', badge: pending },
+            ].map(item => (
+              <div key={item.id} onClick={()=>setActiveNav(item.id)} style={S.ni(activeNav===item.id)}>
+                <span>{item.icon}</span>
+                <span style={{flex:1}}>{item.label}</span>
+                {item.badge>0 && <span style={{background:'#ef4444',color:'#fff',fontSize:'11px',padding:'1px 6px',borderRadius:'8px'}}>{item.badge}</span>}
+              </div>
+            ))}
+          </div>
 
-        <div style={{padding:'14px',borderTop:'1px solid #1e1e2e',display:'flex',alignItems:'center',gap:'8px'}}>
-          <div style={{width:'26px',height:'26px',borderRadius:'50%',background:'#4f46e5',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'11px',color:'#fff',fontWeight:'700'}}>A</div>
-          <div>
-            <div style={{fontSize:'11px',color:'#a0a0c0'}}>Admin</div>
-            <div style={{fontSize:'10px',color:'#3a3a5a'}}>超级管理员</div>
+          <div style={{ padding:'4px 8px' }}>
+            <div onClick={()=>setActiveNav('products')} style={S.ni(activeNav==='products'||activeNav==='addproduct')}>
+              <span>◎</span>
+              <span style={{flex:1}}>产品</span>
+            </div>
+            {['产品系列','库存','采购订单'].map(c=>(
+              <div key={c} style={S.child}>{c}</div>
+            ))}
+          </div>
+
+          <div style={{ padding:'4px 8px' }}>
+            {[
+              { id:'customers', icon:'👤', label:'客户' },
+              { id:'growth', icon:'📊', label:'增长' },
+              { id:'discounts', icon:'🏷️', label:'折扣' },
+              { id:'content', icon:'📝', label:'内容' },
+              { id:'analytics', icon:'📈', label:'分析' },
+            ].map(item=>(
+              <div key={item.id} onClick={()=>setActiveNav(item.id)} style={S.ni(activeNav===item.id)}>
+                <span>{item.icon}</span>
+                <span>{item.label}</span>
+              </div>
+            ))}
+          </div>
+
+          <div style={S.sec}>销售渠道</div>
+          <div style={{ padding:'4px 8px' }}>
+            <div onClick={()=>setActiveNav('store')} style={S.ni(activeNav==='store')}>
+              <span>🛍️</span>
+              <span>在线商店</span>
+            </div>
+            <div onClick={()=>setActiveNav('ai')} style={S.ni(activeNav==='ai')}>
+              <span>🤖</span>
+              <span>智能体</span>
+            </div>
+          </div>
+
+          <div style={{ padding:'4px 8px', marginTop:'8px', borderTop:'1px solid #252540', paddingTop:'12px' }}>
+            <div onClick={()=>setActiveNav('settings')} style={S.ni(activeNav==='settings')}>
+              <span>⚙️</span>
+              <span>设置</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <div style={{flex:1,display:'flex',flexDirection:'column',overflow:'hidden'}}>
-        <div style={{height:'52px',background:'#0d0d14',borderBottom:'1px solid #1e1e2e',display:'flex',alignItems:'center',padding:'0 20px',gap:'12px',flexShrink:0}}>
-          <div style={{flex:1,fontSize:'14px',fontWeight:'600',color:'#e0e0f0'}}>{titles[activeNav]}</div>
-          <div style={{display:'flex',alignItems:'center',gap:'8px',background:'#12121e',border:'1px solid #1e1e2e',borderRadius:'7px',padding:'5px 10px',width:'180px'}}>
-            <span style={{color:'#3a3a5a',fontSize:'13px'}}>🔍</span>
-            <input value={searchQuery} onChange={e=>setSearchQuery(e.target.value)} placeholder="搜索..." style={{background:'none',border:'none',outline:'none',color:'#7070a0',fontSize:'12px',width:'100%'}}/>
+      {/* 主内容 */}
+      <div style={S.main}>
+
+        {/* 顶部搜索栏 */}
+        <div style={S.topbar}>
+          <div style={{ flex:1, display:'flex', alignItems:'center', gap:'8px', background:'#f5f5f5', border:'1px solid #e0e0e0', borderRadius:'8px', padding:'7px 12px' }}>
+            <span style={{color:'#888',fontSize:'14px'}}>🔍</span>
+            <input value={searchQuery} onChange={e=>setSearchQuery(e.target.value)} placeholder="搜索..." style={{background:'none',border:'none',outline:'none',fontSize:'14px',width:'100%',color:'#333'}}/>
           </div>
-          <div style={{width:'30px',height:'30px',background:'#12121e',border:'1px solid #1e1e2e',borderRadius:'7px',display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',position:'relative'}}>
-            🔔<div style={{position:'absolute',top:'5px',right:'5px',width:'5px',height:'5px',background:'#4f46e5',borderRadius:'50%'}}></div>
-          </div>
+          <div style={{width:'32px',height:'32px',background:'#f0f0f0',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',cursor:'pointer',fontSize:'16px'}}>🔔</div>
+          <div style={{width:'32px',height:'32px',background:'#4f46e5',borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'13px',color:'#fff',fontWeight:'700'}}>A</div>
         </div>
 
-        <div style={{flex:1,overflowY:'auto',padding:'20px',background:'#0a0a0f'}}>
+        <div style={S.content}>
 
-          {activeNav==='dashboard'&&(
+          {/* 控制台 */}
+          {activeNav==='dashboard' && (
             <div>
-              <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'10px',marginBottom:'18px'}}>
-                {[{l:'总产品数',v:products.length,c:'#4f46e5',ch:'+12%',up:true},{l:'报价申请',v:quotes.length,c:'#059669',ch:'+8%',up:true},{l:'待跟进',v:pending,c:'#d97706',ch:'-3%',up:false},{l:'转化率',v:'34%',c:'#dc2626',ch:'+5%',up:true}].map((s,i)=>(
-                  <div key={i} style={{background:'#0d0d14',border:'1px solid #1e1e2e',borderRadius:'10px',padding:'14px',position:'relative',overflow:'hidden'}}>
-                    <div style={{position:'absolute',top:0,left:0,right:0,height:'2px',background:s.c}}></div>
-                    <div style={{fontSize:'10px',color:'#3a3a5a',textTransform:'uppercase',letterSpacing:'1px',marginBottom:'8px'}}>{s.l}</div>
-                    <div style={{fontSize:'26px',fontWeight:'700',color:'#e0e0f0',marginBottom:'4px',letterSpacing:'-1px'}}>{s.v}</div>
-                    <div style={{fontSize:'11px',color:s.up?'#34d399':'#f87171'}}>{s.up?'↑':'↓'} {s.ch} 本月</div>
+              <div style={{fontSize:'20px',fontWeight:'700',color:'#1a1a1a',marginBottom:'20px'}}>主页</div>
+              <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'12px',marginBottom:'20px'}}>
+                {[
+                  {l:'总产品数',v:products.length,c:'#4f46e5'},
+                  {l:'报价申请',v:quotes.length,c:'#059669'},
+                  {l:'待跟进',v:pending,c:'#d97706'},
+                  {l:'转化率',v:'34%',c:'#dc2626'},
+                ].map((s,i)=>(
+                  <div key={i} style={{background:'#fff',borderRadius:'12px',border:'1px solid #e5e5e5',padding:'20px',position:'relative',overflow:'hidden'}}>
+                    <div style={{position:'absolute',top:0,left:0,right:0,height:'3px',background:s.c}}></div>
+                    <div style={{fontSize:'13px',color:'#888',marginBottom:'8px'}}>{s.l}</div>
+                    <div style={{fontSize:'28px',fontWeight:'700',color:'#1a1a1a'}}>{s.v}</div>
                   </div>
                 ))}
               </div>
 
-              <div style={{display:'grid',gridTemplateColumns:'1fr 280px',gap:'14px'}}>
-                <div style={{background:'#0d0d14',border:'1px solid #1e1e2e',borderRadius:'10px',overflow:'hidden'}}>
-                  <div style={{padding:'12px 14px',borderBottom:'1px solid #1e1e2e',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-                    <div style={{fontSize:'12px',fontWeight:'600',color:'#c0c0e0'}}>📦 产品列表</div>
-                    <button onClick={()=>setActiveNav('products')} style={{fontSize:'11px',color:'#4f46e5',background:'none',border:'none',cursor:'pointer'}}>查看全部 →</button>
-                  </div>
-                  <table style={{width:'100%',borderCollapse:'collapse'}}>
-                    <thead><tr>{['产品名称','分类','价格','状态'].map(h=><th key={h} style={{padding:'8px 14px',textAlign:'left',fontSize:'9px',color:'#2a2a4a',textTransform:'uppercase',letterSpacing:'1px',borderBottom:'1px solid #151525'}}>{h}</th>)}</tr></thead>
-                    <tbody>
-                      {products.slice(0,5).map(p=>(
-                        <tr key={p.id}>
-                          <td style={{padding:'10px 14px',borderBottom:'1px solid #111120'}}>
-                            <div style={{display:'flex',alignItems:'center',gap:'8px'}}>
-                              <div style={{width:'28px',height:'28px',borderRadius:'5px',background:'#1a1a2e',overflow:'hidden',flexShrink:0}}><img src={p.image} alt={p.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/></div>
-                              <span style={{color:'#c0c0e0',fontWeight:'500'}}>{p.name}</span>
-                            </div>
-                          </td>
-                          <td style={{padding:'10px 14px',borderBottom:'1px solid #111120'}}>{pill(p.category)}</td>
-                          <td style={{padding:'10px 14px',borderBottom:'1px solid #111120',color:'#e0e0f0',fontWeight:'600'}}>{p.price}</td>
-                          <td style={{padding:'10px 14px',borderBottom:'1px solid #111120'}}><span style={{color:'#34d399',fontSize:'11px'}}>● 上架</span></td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+              <div style={S.card}>
+                <div style={S.cardHeader}>
+                  <div style={S.cardTitle}>最新报价申请</div>
+                  <button onClick={()=>setActiveNav('quotes')} style={S.btn()}>查看全部</button>
                 </div>
-
-                <div style={{background:'#0d0d14',border:'1px solid #1e1e2e',borderRadius:'10px',overflow:'hidden',display:'flex',flexDirection:'column'}}>
-                  <div style={{padding:'12px 14px',borderBottom:'1px solid #1e1e2e',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-                    <div style={{fontSize:'12px',fontWeight:'600',color:'#c0c0e0'}}>⚡ 最新动态</div>
-                    <button onClick={()=>setActiveNav('quotes')} style={{fontSize:'11px',color:'#4f46e5',background:'none',border:'none',cursor:'pointer'}}>全部</button>
-                  </div>
-                  <div style={{flex:1}}>
-                    {quotes.slice(0,4).map((q,i)=>(
-                      <div key={q.id} style={{padding:'10px 14px',borderBottom:'1px solid #111120',display:'flex',alignItems:'center',gap:'10px'}}>
-                        <div style={{width:'26px',height:'26px',borderRadius:'50%',background:i%3===0?'#13132a':i%3===1?'#0a1a0f':'#1a1000',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,fontSize:'12px'}}>
-                          {i%3===0?'📋':i%3===1?'✅':'📧'}
-                        </div>
-                        <div style={{flex:1,minWidth:0}}>
-                          <div style={{fontSize:'11px',color:'#6060a0',lineHeight:'1.4'}}><span style={{color:'#b0b0d0',fontWeight:'500'}}>{q.name}</span> 提交报价</div>
-                          <div style={{fontSize:'10px',color:'#2a2a4a',marginTop:'2px'}}>{new Date(q.created_at).toLocaleDateString('zh-CN')}</div>
-                        </div>
-                        <span style={{background:q.status==='待跟进'?'#1a1000':q.status==='已联系'?'#0a1a0f':'#13132a',color:q.status==='待跟进'?'#fbbf24':q.status==='已联系'?'#34d399':'#818cf8',padding:'2px 7px',borderRadius:'20px',fontSize:'10px',fontWeight:'600',flexShrink:0}}>{q.status}</span>
-                      </div>
-                    ))}
-                  </div>
-                  <div style={{padding:'14px',borderTop:'1px solid #1e1e2e'}}>
-                    <div style={{fontSize:'9px',color:'#2a2a4a',textTransform:'uppercase',letterSpacing:'1.5px',marginBottom:'8px'}}>报价趋势</div>
-                    <div style={{display:'flex',alignItems:'flex-end',gap:'3px',height:'56px'}}>
-                      {[40,55,45,70,60,80,95].map((h,i)=><div key={i} style={{flex:1,height:h+'%',background:i>=5?'#6366f1':'#4f46e5',borderRadius:'2px 2px 0 0',opacity:i>=5?1:0.6}}></div>)}
-                    </div>
-                    <div style={{display:'flex',gap:'3px',marginTop:'4px'}}>
-                      {['一','二','三','四','五','六','日'].map(d=><div key={d} style={{flex:1,textAlign:'center',fontSize:'9px',color:'#2a2a4a'}}>周{d}</div>)}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {activeNav==='products'&&(
-            <div>
-              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'14px'}}>
-                <div style={{color:'#5050a0',fontSize:'12px'}}>共 {products.length} 个产品</div>
-                <button onClick={()=>setShowAdd(!showAdd)} style={{background:'#4f46e5',color:'#fff',border:'none',borderRadius:'7px',padding:'7px 14px',cursor:'pointer',fontSize:'12px',fontWeight:'600'}}>+ 添加产品</button>
-              </div>
-
-              {showAdd&&(
-                <div style={{background:'#0d0d14',border:'1px solid #4f46e5',borderRadius:'10px',padding:'18px',marginBottom:'14px'}}>
-                  <div style={{fontSize:'13px',fontWeight:'600',color:'#c0c0e0',marginBottom:'14px'}}>添加新产品</div>
-                  <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'12px'}}>
-                    {[{k:'name',l:'产品名称',p:'例：双层隔热窗'},{k:'price',l:'价格',p:'例：从 ¥2,999 起'},{k:'category',l:'分类',p:'例：窗户'},{k:'image',l:'图片链接',p:'https://...'}].map(f=>(
-                      <div key={f.k}>
-                        <div style={{fontSize:'9px',color:'#3a3a5a',marginBottom:'5px',textTransform:'uppercase',letterSpacing:'1.5px'}}>{f.l}</div>
-                        <input value={newProd[f.k]} onChange={e=>setNewProd({...newProd,[f.k]:e.target.value})} placeholder={f.p}
-                          style={{width:'100%',background:'#12121e',border:'1px solid #1e1e2e',borderRadius:'7px',padding:'8px 10px',color:'#c0c0e0',fontSize:'12px',outline:'none',boxSizing:'border-box'}}/>
-                      </div>
-                    ))}
-                  </div>
-                  <div style={{marginTop:'12px'}}>
-                    <div style={{fontSize:'9px',color:'#3a3a5a',marginBottom:'5px',textTransform:'uppercase',letterSpacing:'1.5px'}}>产品描述</div>
-                    <textarea value={newProd.description} onChange={e=>setNewProd({...newProd,description:e.target.value})} placeholder="产品详细描述..." rows={3}
-                      style={{width:'100%',background:'#12121e',border:'1px solid #1e1e2e',borderRadius:'7px',padding:'8px 10px',color:'#c0c0e0',fontSize:'12px',outline:'none',resize:'none',boxSizing:'border-box'}}/>
-                  </div>
-                  <div style={{display:'flex',gap:'8px',marginTop:'14px'}}>
-                    <button style={{background:'#4f46e5',color:'#fff',border:'none',borderRadius:'7px',padding:'8px 20px',cursor:'pointer',fontSize:'12px',fontWeight:'600'}}>保存产品</button>
-                    <button onClick={()=>setShowAdd(false)} style={{background:'#1e1e2e',color:'#6060a0',border:'none',borderRadius:'7px',padding:'8px 20px',cursor:'pointer',fontSize:'12px'}}>取消</button>
-                  </div>
-                </div>
-              )}
-
-              <div style={{background:'#0d0d14',border:'1px solid #1e1e2e',borderRadius:'10px',overflow:'hidden'}}>
                 <table style={{width:'100%',borderCollapse:'collapse'}}>
-                  <thead><tr>{['产品','分类','价格','状态','操作'].map(h=><th key={h} style={{padding:'8px 14px',textAlign:'left',fontSize:'9px',color:'#2a2a4a',textTransform:'uppercase',letterSpacing:'1px',borderBottom:'1px solid #151525'}}>{h}</th>)}</tr></thead>
+                  <thead><tr>{['客户','邮箱','产品','状态','时间'].map(h=><th key={h} style={{padding:'10px 20px',textAlign:'left',fontSize:'12px',color:'#888',fontWeight:'500',borderBottom:'1px solid #f0f0f0',background:'#fafafa'}}>{h}</th>)}</tr></thead>
                   <tbody>
-                    {products.filter(p=>!searchQuery||p.name.includes(searchQuery)||p.category.includes(searchQuery)).map(p=>(
-                      <tr key={p.id}>
-                        <td style={{padding:'10px 14px',borderBottom:'1px solid #111120'}}>
-                          <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
-                            <div style={{width:'36px',height:'36px',borderRadius:'7px',overflow:'hidden',flexShrink:0,background:'#1a1a2e'}}><img src={p.image} alt={p.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/></div>
-                            <div>
-                              <div style={{color:'#c0c0e0',fontWeight:'500'}}>{p.name}</div>
-                              <div style={{color:'#3a3a5a',fontSize:'10px',marginTop:'1px'}}>{(p.description||'').slice(0,25)}...</div>
-                            </div>
-                          </div>
-                        </td>
-                        <td style={{padding:'10px 14px',borderBottom:'1px solid #111120'}}>{pill(p.category)}</td>
-                        <td style={{padding:'10px 14px',borderBottom:'1px solid #111120',color:'#e0e0f0',fontWeight:'600'}}>{p.price}</td>
-                        <td style={{padding:'10px 14px',borderBottom:'1px solid #111120'}}><span style={{color:'#34d399',fontSize:'11px'}}>● 上架</span></td>
-                        <td style={{padding:'10px 14px',borderBottom:'1px solid #111120'}}>
-                          <div style={{display:'flex',gap:'6px'}}>
-                            <button style={{background:'#13132a',color:'#818cf8',border:'none',borderRadius:'5px',padding:'4px 10px',cursor:'pointer',fontSize:'11px'}}>编辑</button>
-                            <button style={{background:'#2a0a0a',color:'#f87171',border:'none',borderRadius:'5px',padding:'4px 10px',cursor:'pointer',fontSize:'11px'}}>删除</button>
-                          </div>
-                        </td>
+                    {quotes.slice(0,5).map(q=>(
+                      <tr key={q.id} style={{borderBottom:'1px solid #f5f5f5'}}>
+                        <td style={{padding:'12px 20px',fontWeight:'500',color:'#1a1a1a'}}>{q.name}</td>
+                        <td style={{padding:'12px 20px',color:'#555',fontSize:'13px'}}>{q.email}</td>
+                        <td style={{padding:'12px 20px'}}><span style={S.badge()}>{q.product_type||'未指定'}</span></td>
+                        <td style={{padding:'12px 20px'}}><span style={S.badge(q.status==='待跟进'?'yellow':'green')}>{q.status}</span></td>
+                        <td style={{padding:'12px 20px',color:'#888',fontSize:'12px'}}>{new Date(q.created_at).toLocaleDateString('zh-CN')}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -216,46 +185,228 @@ function Admin() {
             </div>
           )}
 
-          {activeNav==='quotes'&&(
+          {/* 产品列表 */}
+          {activeNav==='products' && (
             <div>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'20px'}}>
+                <div style={{fontSize:'20px',fontWeight:'700',color:'#1a1a1a'}}>产品</div>
+                <button onClick={()=>setActiveNav('addproduct')} style={{...S.btn('#4f46e5'),display:'flex',alignItems:'center',gap:'6px'}}>+ 添加产品</button>
+              </div>
+
+              <div style={S.card}>
+                <div style={{padding:'12px 20px',borderBottom:'1px solid #f0f0f0',display:'flex',gap:'8px'}}>
+                  <div style={{display:'flex',alignItems:'center',gap:'8px',background:'#f5f5f5',border:'1px solid #e0e0e0',borderRadius:'8px',padding:'6px 12px',flex:1}}>
+                    <span style={{color:'#888'}}>🔍</span>
+                    <input placeholder="搜索产品..." style={{background:'none',border:'none',outline:'none',fontSize:'13px',width:'100%'}}/>
+                  </div>
+                  <select style={{border:'1px solid #e0e0e0',borderRadius:'8px',padding:'6px 12px',fontSize:'13px',outline:'none',background:'#fff',color:'#333'}}>
+                    <option>全部分类</option>
+                    <option>窗户</option>
+                    <option>门</option>
+                    <option>天窗</option>
+                  </select>
+                </div>
+                <table style={{width:'100%',borderCollapse:'collapse'}}>
+                  <thead><tr>{['产品','状态','库存','分类','价格'].map(h=><th key={h} style={{padding:'10px 20px',textAlign:'left',fontSize:'12px',color:'#888',fontWeight:'500',borderBottom:'1px solid #f0f0f0',background:'#fafafa'}}>{h}</th>)}</tr></thead>
+                  <tbody>
+                    {products.map(p=>(
+                      <tr key={p.id} style={{borderBottom:'1px solid #f5f5f5',cursor:'pointer'}} onClick={()=>setActiveNav('addproduct')}>
+                        <td style={{padding:'12px 20px'}}>
+                          <div style={{display:'flex',alignItems:'center',gap:'12px'}}>
+                            <div style={{width:'40px',height:'40px',borderRadius:'8px',overflow:'hidden',border:'1px solid #e5e5e5',flexShrink:0}}>
+                              <img src={p.image} alt={p.name} style={{width:'100%',height:'100%',objectFit:'cover'}}/>
+                            </div>
+                            <span style={{fontWeight:'500',color:'#1a1a1a'}}>{p.name}</span>
+                          </div>
+                        </td>
+                        <td style={{padding:'12px 20px'}}><span style={S.badge('green')}>已上架</span></td>
+                        <td style={{padding:'12px 20px',color:'#555',fontSize:'13px'}}>有库存</td>
+                        <td style={{padding:'12px 20px',color:'#555',fontSize:'13px'}}>{p.category}</td>
+                        <td style={{padding:'12px 20px',fontWeight:'600',color:'#1a1a1a'}}>{p.price}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* 添加产品 - Shopify风格 */}
+          {activeNav==='addproduct' && (
+            <div>
+              <div style={{display:'flex',alignItems:'center',gap:'8px',marginBottom:'20px'}}>
+                <button onClick={()=>setActiveNav('products')} style={{background:'none',border:'none',cursor:'pointer',color:'#888',fontSize:'14px'}}>◎</button>
+                <span style={{color:'#888'}}>›</span>
+                <div style={{fontSize:'20px',fontWeight:'700',color:'#1a1a1a'}}>添加产品</div>
+              </div>
+
+              <div style={{display:'grid',gridTemplateColumns:'1fr 320px',gap:'16px'}}>
+                <div>
+                  <div style={S.card}>
+                    <div style={{padding:'20px'}}>
+                      <div style={{marginBottom:'16px'}}>
+                        <label style={S.label}>标题</label>
+                        <input value={newProduct.name} onChange={e=>setNewProduct({...newProduct,name:e.target.value})} placeholder="短袖T恤" style={S.input}/>
+                      </div>
+                      <div>
+                        <label style={S.label}>描述</label>
+                        <div style={{border:'1px solid #d0d0d0',borderRadius:'8px',overflow:'hidden'}}>
+                          <div style={{padding:'8px 12px',borderBottom:'1px solid #e5e5e5',display:'flex',gap:'6px',background:'#fafafa'}}>
+                            {['B','I','U','A'].map(t=><button key={t} style={{background:'none',border:'none',cursor:'pointer',padding:'3px 6px',borderRadius:'4px',fontSize:'13px',fontWeight:'600',color:'#555'}}>{t}</button>)}
+                          </div>
+                          <textarea value={newProduct.description} onChange={e=>setNewProduct({...newProduct,description:e.target.value})} placeholder="输入产品描述..." rows={6}
+                            style={{width:'100%',border:'none',outline:'none',padding:'12px',fontSize:'14px',resize:'vertical',boxSizing:'border-box',color:'#333'}}/>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={S.card}>
+                    <div style={{padding:'20px'}}>
+                      <div style={S.cardTitle}>媒体文件</div>
+                      <div style={{border:'2px dashed #d0d0d0',borderRadius:'8px',padding:'40px',textAlign:'center',marginTop:'12px',background:'#fafafa'}}>
+                        <div style={{fontSize:'24px',marginBottom:'8px'}}>🖼️</div>
+                        <div style={{display:'flex',gap:'8px',justifyContent:'center',marginBottom:'8px'}}>
+                          <button style={S.btn()}>上传新文件</button>
+                          <button style={S.btn()}>选择现有文件</button>
+                        </div>
+                        <div style={{fontSize:'12px',color:'#888'}}>支持图片、视频或 3D 模型</div>
+                      </div>
+                      <div style={{marginTop:'12px'}}>
+                        <label style={S.label}>图片链接</label>
+                        <input value={newProduct.image} onChange={e=>setNewProduct({...newProduct,image:e.target.value})} placeholder="https://..." style={S.input}/>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={S.card}>
+                    <div style={{padding:'20px'}}>
+                      <div style={{marginBottom:'16px'}}>
+                        <label style={S.label}>类别</label>
+                        <select value={newProduct.category} onChange={e=>setNewProduct({...newProduct,category:e.target.value})} style={{...S.input,background:'#fff'}}>
+                          <option value="">选择产品类别</option>
+                          <option value="窗户">窗户</option>
+                          <option value="门">门</option>
+                          <option value="天窗">天窗</option>
+                        </select>
+                        <div style={{fontSize:'12px',color:'#888',marginTop:'4px'}}>确定税率并添加元字段，以改进搜索、筛选和跨渠道销售</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={S.card}>
+                    <div style={{padding:'20px'}}>
+                      <div style={S.cardTitle}>价格</div>
+                      <div style={{marginTop:'12px'}}>
+                        <label style={S.label}>价格</label>
+                        <div style={{display:'flex',alignItems:'center',border:'1px solid #d0d0d0',borderRadius:'8px',overflow:'hidden'}}>
+                          <span style={{padding:'9px 12px',background:'#f5f5f5',color:'#555',borderRight:'1px solid #d0d0d0',fontSize:'14px'}}>¥</span>
+                          <input value={newProduct.price} onChange={e=>setNewProduct({...newProduct,price:e.target.value})} placeholder="0.00" style={{flex:1,border:'none',outline:'none',padding:'9px 12px',fontSize:'14px'}}/>
+                        </div>
+                      </div>
+                      <div style={{display:'flex',gap:'8px',marginTop:'10px'}}>
+                        {['原价','单价','收取税款 是','单件成本'].map(t=>(
+                          <span key={t} style={{fontSize:'12px',color:'#4f46e5',cursor:'pointer',padding:'4px 8px',background:'#f0f0ff',borderRadius:'6px'}}>{t}</span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={{display:'flex',gap:'8px',justifyContent:'flex-end',marginTop:'8px'}}>
+                    <button onClick={()=>setActiveNav('products')} style={S.btn()}>取消</button>
+                    <button style={S.btn('#4f46e5')}>保存产品</button>
+                  </div>
+                </div>
+
+                <div>
+                  <div style={S.card}>
+                    <div style={{padding:'16px'}}>
+                      <div style={S.cardTitle}>状态</div>
+                      <select style={{...S.input,marginTop:'10px',background:'#fff'}}>
+                        <option>已上架</option>
+                        <option>草稿</option>
+                        <option>已下架</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div style={S.card}>
+                    <div style={{padding:'16px'}}>
+                      <div style={S.cardTitle}>发布</div>
+                      <div style={{display:'flex',alignItems:'center',gap:'8px',marginTop:'10px',color:'#555',fontSize:'13px'}}>
+                        <span>📢</span>
+                        <span>所有渠道</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={S.card}>
+                    <div style={{padding:'16px'}}>
+                      <div style={S.cardTitle}>产品组织</div>
+                      <div style={{marginTop:'12px',display:'flex',flexDirection:'column',gap:'10px'}}>
+                        {[{l:'类型',ph:'无'},{l:'厂商',ph:'无'}].map(f=>(
+                          <div key={f.l}>
+                            <label style={{...S.label,fontSize:'12px',color:'#555'}}>{f.l}</label>
+                            <select style={{...S.input,background:'#fff',fontSize:'13px'}}>
+                              <option>{f.ph}</option>
+                            </select>
+                          </div>
+                        ))}
+                        <div>
+                          <label style={{...S.label,fontSize:'12px',color:'#555'}}>产品系列</label>
+                          <div style={{border:'1px solid #d0d0d0',borderRadius:'8px',padding:'9px 12px',fontSize:'13px',color:'#4f46e5',cursor:'pointer'}}>⊕ 添加产品系列</div>
+                        </div>
+                        <div>
+                          <label style={{...S.label,fontSize:'12px',color:'#555'}}>标记</label>
+                          <div style={{border:'1px solid #d0d0d0',borderRadius:'8px',padding:'9px 12px',fontSize:'13px',color:'#4f46e5',cursor:'pointer'}}>⊕ 添加标记</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* 报价管理 */}
+          {activeNav==='quotes' && (
+            <div>
+              <div style={{fontSize:'20px',fontWeight:'700',color:'#1a1a1a',marginBottom:'20px'}}>订单</div>
               <div style={{display:'flex',gap:'10px',marginBottom:'16px'}}>
-                {[{l:'全部',v:quotes.length,c:'#818cf8'},{l:'待跟进',v:pending,c:'#fbbf24'},{l:'已联系',v:quotes.filter(q=>q.status==='已联系').length,c:'#34d399'},{l:'已成交',v:quotes.filter(q=>q.status==='已成交').length,c:'#6366f1'}].map((t,i)=>(
-                  <div key={i} style={{background:'#0d0d14',border:'1px solid #1e1e2e',borderRadius:'8px',padding:'10px 16px',display:'flex',gap:'8px',alignItems:'center'}}>
-                    <span style={{color:t.c,fontSize:'20px',fontWeight:'700',letterSpacing:'-1px'}}>{t.v}</span>
-                    <span style={{color:'#5050a0',fontSize:'12px'}}>{t.l}</span>
+                {[{l:'全部',v:quotes.length},{l:'待跟进',v:pending},{l:'已联系',v:quotes.filter(q=>q.status==='已联系').length},{l:'已成交',v:quotes.filter(q=>q.status==='已成交').length}].map((t,i)=>(
+                  <div key={i} style={{background:'#fff',border:'1px solid #e5e5e5',borderRadius:'8px',padding:'10px 16px',display:'flex',gap:'8px',alignItems:'center',cursor:'pointer'}}>
+                    <span style={{fontWeight:'700',color:'#1a1a1a',fontSize:'18px'}}>{t.v}</span>
+                    <span style={{color:'#888',fontSize:'13px'}}>{t.l}</span>
                   </div>
                 ))}
               </div>
 
-              <div style={{background:'#0d0d14',border:'1px solid #1e1e2e',borderRadius:'10px',overflow:'hidden'}}>
+              <div style={S.card}>
                 <table style={{width:'100%',borderCollapse:'collapse'}}>
-                  <thead><tr>{['客户','联系方式','产品','状态','时间','操作'].map(h=><th key={h} style={{padding:'8px 14px',textAlign:'left',fontSize:'9px',color:'#2a2a4a',textTransform:'uppercase',letterSpacing:'1px',borderBottom:'1px solid #151525'}}>{h}</th>)}</tr></thead>
+                  <thead><tr>{['客户','联系方式','产品','状态','时间','操作'].map(h=><th key={h} style={{padding:'10px 20px',textAlign:'left',fontSize:'12px',color:'#888',fontWeight:'500',borderBottom:'1px solid #f0f0f0',background:'#fafafa'}}>{h}</th>)}</tr></thead>
                   <tbody>
                     {quotes.map(q=>(
-                      <tr key={q.id}>
-                        <td style={{padding:'10px 14px',borderBottom:'1px solid #111120'}}>
-                          <div style={{color:'#c0c0e0',fontWeight:'500',fontSize:'12px'}}>{q.name}</div>
-                          <div style={{color:'#3a3a5a',fontSize:'10px'}}>{q.zip_code}</div>
+                      <tr key={q.id} style={{borderBottom:'1px solid #f5f5f5'}}>
+                        <td style={{padding:'12px 20px',fontWeight:'500',color:'#1a1a1a'}}>{q.name}</td>
+                        <td style={{padding:'12px 20px'}}>
+                          <div style={{fontSize:'13px',color:'#555'}}>{q.email}</div>
+                          <div style={{fontSize:'12px',color:'#888'}}>{q.phone}</div>
                         </td>
-                        <td style={{padding:'10px 14px',borderBottom:'1px solid #111120'}}>
-                          <div style={{color:'#6060a0',fontSize:'11px'}}>{q.email}</div>
-                          <div style={{color:'#3a3a5a',fontSize:'10px'}}>{q.phone}</div>
-                        </td>
-                        <td style={{padding:'10px 14px',borderBottom:'1px solid #111120'}}>{pill(q.product_type||'未指定')}</td>
-                        <td style={{padding:'10px 14px',borderBottom:'1px solid #111120'}}>
+                        <td style={{padding:'12px 20px'}}><span style={S.badge()}>{q.product_type||'未指定'}</span></td>
+                        <td style={{padding:'12px 20px'}}>
                           <select value={q.status} onChange={async e=>{
                             const s=e.target.value;
                             await fetch('https://window-server.onrender.com/api/quotes/'+q.id,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({status:s})});
                             setQuotes(quotes.map(x=>x.id===q.id?{...x,status:s}:x));
-                          }} style={{background:'#12121e',border:'1px solid #1e1e2e',borderRadius:'5px',color:q.status==='待跟进'?'#fbbf24':q.status==='已联系'?'#34d399':'#818cf8',padding:'4px 8px',fontSize:'11px',cursor:'pointer',outline:'none',fontWeight:'600'}}>
+                          }} style={{border:'1px solid #e0e0e0',borderRadius:'6px',padding:'5px 10px',fontSize:'12px',cursor:'pointer',outline:'none',background:'#fff',color:'#1a1a1a'}}>
                             <option value="待跟进">⏳ 待跟进</option>
                             <option value="已联系">✅ 已联系</option>
                             <option value="已成交">🎉 已成交</option>
                           </select>
                         </td>
-                        <td style={{padding:'10px 14px',borderBottom:'1px solid #111120',color:'#3a3a5a',fontSize:'11px'}}>{new Date(q.created_at).toLocaleDateString('zh-CN')}</td>
-                        <td style={{padding:'10px 14px',borderBottom:'1px solid #111120'}}>
-                          <button style={{background:'#13132a',color:'#818cf8',border:'none',borderRadius:'5px',padding:'4px 10px',cursor:'pointer',fontSize:'11px'}}>详情</button>
+                        <td style={{padding:'12px 20px',color:'#888',fontSize:'12px'}}>{new Date(q.created_at).toLocaleDateString('zh-CN')}</td>
+                        <td style={{padding:'12px 20px'}}>
+                          <button style={{background:'none',border:'1px solid #e0e0e0',borderRadius:'6px',padding:'5px 12px',cursor:'pointer',fontSize:'12px',color:'#555'}}>详情</button>
                         </td>
                       </tr>
                     ))}
@@ -265,11 +416,11 @@ function Admin() {
             </div>
           )}
 
-          {['series','customers','analytics','emails','settings'].includes(activeNav)&&(
+          {['customers','analytics','growth','discounts','content','store','ai','settings'].includes(activeNav) && (
             <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',height:'60vh'}}>
               <div style={{fontSize:'48px',marginBottom:'16px'}}>🚧</div>
-              <div style={{fontSize:'16px',color:'#5050a0',fontWeight:'600'}}>正在开发中</div>
-              <div style={{fontSize:'11px',color:'#2a2a4a',marginTop:'6px',letterSpacing:'2px'}}>COMING SOON</div>
+              <div style={{fontSize:'18px',color:'#888',fontWeight:'500'}}>正在开发中</div>
+              <div style={{fontSize:'13px',color:'#aaa',marginTop:'6px'}}>Coming Soon</div>
             </div>
           )}
 
