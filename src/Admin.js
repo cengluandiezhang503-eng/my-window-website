@@ -16,10 +16,10 @@ const C = {
   blue: '#b4e1fa',
   blueText: '#0d3554',
   purple: '#5c6ac4',
-  sidebar: '#1c1c1c',
-  sidebarBorder: '#2a2a2a',
-  sidebarText: '#b0b8c1',
-  sidebarActive: 'rgba(255,255,255,0.12)',
+  sidebar: '#fff',
+  sidebarBorder: '#e1e3e5',
+  sidebarText: '#202223',
+  sidebarActive: '#f6f6f7',
 };
 
 const badge = (status) => {
@@ -179,7 +179,7 @@ export default function Admin() {
     <div style={{ display: 'flex', height: '100vh', background: C.bg, fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif', fontSize: '14px', color: C.text }}>
 
       {/* 侧边栏 */}
-      <div style={{ width: '240px', flexShrink: 0, background: C.sidebar, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+      <div style={{ width: '240px', flexShrink: 0, background: "#fff", display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
 
         {/* 顶部品牌 */}
         <div style={{ padding: '12px 16px', borderBottom: `1px solid ${C.sidebarBorder}`, display: 'flex', alignItems: 'center', gap: '10px' }}>
