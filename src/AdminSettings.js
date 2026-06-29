@@ -11,30 +11,6 @@ const C = {
   green: '#008060',
 };
 
-const settingsNav = [
-  { section: null, items: [
-    { id: 'general', icon: '🏠', label: '常规' },
-    { id: 'plan', icon: '📋', label: '套餐' },
-    { id: 'billing', icon: '💳', label: '账单' },
-  ]},
-  { section: null, items: [
-    { id: 'payments', icon: '💳', label: '支付' },
-    { id: 'checkout', icon: '🛒', label: '结账' },
-    { id: 'customer_accounts', icon: '👤', label: '客户账户' },
-    { id: 'shipping', icon: '🚚', label: '发货和配送' },
-    { id: 'taxes', icon: '📊', label: '税款和关税' },
-    { id: 'locations', icon: '📍', label: '地点' },
-    { id: 'apps', icon: '📦', label: '应用' },
-    { id: 'sales_channels', icon: '📢', label: '销售渠道' },
-    { id: 'domains', icon: '🌐', label: '域名' },
-    { id: 'customer_events', icon: '⚡', label: '客户事件' },
-    { id: 'notifications', icon: '🔔', label: '通知' },
-    { id: 'metafields', icon: '🏷️', label: '元字段和元对象' },
-    { id: 'languages', icon: '🌍', label: '语言' },
-    { id: 'privacy', icon: '🔒', label: '客户隐私' },
-    { id: 'policies', icon: '📄', label: '政策' },
-  ]},
-];
 
 const Icons = {
   general: <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd"/></svg>,
