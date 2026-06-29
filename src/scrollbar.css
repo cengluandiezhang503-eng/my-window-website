@@ -1,3 +1,12 @@
+* {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+*:hover {
+  scrollbar-color: #5B0FA8 transparent;
+}
+
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -9,13 +18,10 @@
 ::-webkit-scrollbar-thumb {
   background: transparent;
   border-radius: 10px;
-  transition: background 0.3s;
 }
 
-*:hover::-webkit-scrollbar-thumb {
+div:hover::-webkit-scrollbar-thumb,
+aside:hover::-webkit-scrollbar-thumb,
+main:hover::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #8B3FD4, #5B0FA8, #3A0875);
-}
-
-*:hover::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #C084FC, #8B3FD4, #5B0FA8);
 }
