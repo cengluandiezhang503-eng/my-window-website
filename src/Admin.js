@@ -391,7 +391,7 @@ export default function Admin() {
                   <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                     <thead><tr>
                       <th style={{ padding: '10px 16px', width: '32px', background: '#fafafa', borderBottom: `1px solid ${C.border}` }}><input type="checkbox" /></th>
-                      {['产品', '状态', '库存', '分类', '价格'].map(h => <Th key={h}>{h}</Th>)}
+                      {['产品', '状态', '库存', '分类', '价格', '操作'].map(h => <Th key={h}>{h}</Th>)}
                     </tr></thead>
                     <tbody>
                       {products.map(p => (
@@ -411,6 +411,12 @@ export default function Admin() {
                           <Td style={{ color: C.textMuted }}>有库存</Td>
                           <Td style={{ color: C.textMuted }}>{p.category}</Td>
                           <Td style={{ fontWeight: '500' }}>{p.price}</Td>
+                          <Td>
+                            <div style={{ display: 'flex', gap: '6px' }}>
+                              <button onClick={e => { e.stopPropagation(); setNp({name:p.name,description:p.description||'',price:p.price||'',category:p.category||'',image:p.image||'',status:'已上架',type:'',vendor:'',tags:''}); setSubPage('add_product'); }} style={{ background: 'white', color: '#202223', border: '1px solid #e1e3e5', borderRadius: '6px', padding: '4px 10px', cursor: 'pointer', fontSize: '12px' }}>编辑</button>
+                              <button onClick={async e => { e.stopPropagation(); if (window.confirm('确定删除？')) { const r = await fetch('https://window-server.onrender.com/api/products/'+p.id,{method:'DELETE'}); if(r.ok) setProducts(prev=>prev.filter(x=>x.id!==p.id)); } }} style={{ background: 'white', color: '#d72c0d', border: '1px solid #d72c0d', borderRadius: '6px', padding: '4px 10px', cursor: 'pointer', fontSize: '12px' }}>删除</button>
+                            </div>
+                          </Td>
                         </tr>
                       ))}
                     </tbody>
@@ -562,20 +568,15 @@ export default function Admin() {
                   <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end', paddingBottom: '20px' }}>
                     <BtnSecondary onClick={() => setSubPage('')}>取消</BtnSecondary>
                     <BtnPrimary onClick={async () => {
-                      if (!np.name) { alert('请输入产品名称'); return; }
                       const res = await fetch('https://window-server.onrender.com/api/products', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(np)
+                        body: JSON.stringify({ name: np.name, description: np.description, price: np.price, category: np.category, image: np.image })
                       });
-                      if (res.ok) {
-                        const saved = await res.json();
-                        setProducts(prev => [...prev, saved]);
-                        setNp({ name:'', description:'', price:'', category:'', image:'', status:'已上架', type:'', vendor:'', tags:'' });
-                        setSubPage('');
-                      } else {
-                        alert('添加失败，请重试');
-                      }
+                      const saved = await res.json();
+                      setProducts(prev => [...prev, saved]);
+                      setNp({ name:'', description:'', price:'', category:'', image:'', status:'已上架', type:'', vendor:'', tags:'' });
+                      setSubPage('');
                     }}>保存产品</BtnPrimary>
                   </div>
                 </div>
