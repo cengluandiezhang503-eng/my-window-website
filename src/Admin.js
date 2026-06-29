@@ -159,7 +159,7 @@ export default function Admin() {
     const on = page === id && subPage === '' && !selectedMenu;
 
   return (
-      <div onClick={() => { setPage(id); setSubPage(''); setSelectedMenu(null); }}
+      <div onClick={() => { if (customClick) { customClick(); } else { setPage(id); setSubPage(''); setSelectedMenu(null); } }}
         style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: indent ? '6px 12px 6px 40px' : '7px 14px', cursor: 'pointer', borderRadius: '6px', margin: '1px 6px', fontSize: '13px', color: on ? C.text : indent ? C.textMuted : C.text, background: on ? C.bg : 'transparent', fontWeight: on ? '500' : '400' }}>
         {!indent && <span style={{ color: on ? C.text : C.textMuted, display: 'flex' }}>{icon}</span>}
         <span style={{ flex: 1 }}>{label}</span>
