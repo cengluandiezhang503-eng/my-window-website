@@ -449,11 +449,11 @@ export default function Admin() {
                 <div>
                   <Card>
                     <div style={{ padding: '20px' }}>
-                      <Field label="标题"><Inp val={np.name} set={v => setNp({ ...np, name: v })} ph="短袖T恤" /></Field>
+                      <Field label="标题"><Inp val={np.name} set={v => setNp(prev => ({ ...prev, name: v }))} ph="短袖T恤" /></Field>
                       <Field label="描述">
                         <div style={{ border: `1px solid ${C.border}`, borderRadius: '8px', overflow: 'hidden' }}>
                           <Toolbar />
-                          <textarea value={np.description} onChange={e => setNp({ ...np, description: e.target.value })} rows={8}
+                          <textarea value={np.description} onChange={e => setNp(prev => ({ ...prev, description: e.target.value }))} rows={8}
                             style={{ width: '100%', border: 'none', outline: 'none', padding: '12px', fontSize: '14px', resize: 'vertical', boxSizing: 'border-box', color: C.text, fontFamily: 'inherit' }} />
                         </div>
                       </Field>
@@ -469,13 +469,13 @@ export default function Admin() {
                         </div>
                         <div style={{ fontSize: '12px', color: C.textMuted }}>支持图片、视频或 3D 模型</div>
                       </div>
-                      <div style={{ marginTop: '12px' }}><Field label="图片链接"><Inp val={np.image} set={v => setNp({ ...np, image: v })} ph="https://..." /></Field></div>
+                      <div style={{ marginTop: '12px' }}><Field label="图片链接"><Inp val={np.image} set={v => setNp(prev => ({ ...prev, image: v }))} ph="https://..." /></Field></div>
                     </div>
                   </Card>
                   <Card>
                     <div style={{ padding: '20px' }}>
                       <Field label="类别" sub="确定税率并添加元字段，以改进搜索、筛选和跨渠道销售">
-                        <Sel val={np.category} set={v => setNp({ ...np, category: v })} opts={[{ v: '', l: '选择产品类别' }, '窗户', '门', '天窗']} />
+                        <Sel val={np.category} set={v => setNp(prev => ({ ...prev, category: v }))} opts={[{ v: '', l: '选择产品类别' }, '窗户', '门', '天窗']} />
                       </Field>
                     </div>
                   </Card>
@@ -486,7 +486,7 @@ export default function Admin() {
                         <Field label="价格">
                           <div style={{ display: 'flex', border: `1px solid ${C.border}`, borderRadius: '8px', overflow: 'hidden' }}>
                             <span style={{ padding: '8px 12px', background: C.bg, color: C.textMuted, borderRight: `1px solid ${C.border}` }}>$</span>
-                            <input value={np.price} onChange={e => setNp({ ...np, price: e.target.value })} placeholder="0.00" style={{ flex: 1, border: 'none', outline: 'none', padding: '8px 12px', fontSize: '14px' }} />
+                            <input value={np.price} onChange={e => setNp(prev => ({ ...prev, price: e.target.value }))} placeholder="0.00" style={{ flex: 1, border: 'none', outline: 'none', padding: '8px 12px', fontSize: '14px' }} />
                           </div>
                         </Field>
                         <Field label="原价">
@@ -581,7 +581,7 @@ export default function Admin() {
                   </div>
                 </div>
                 <div>
-                  <Card><CardHeader title="状态" /><div style={{ padding: '16px' }}><Sel val={np.status} set={v => setNp({ ...np, status: v })} opts={['已上架', '草稿', '已下架']} /></div></Card>
+                  <Card><CardHeader title="状态" /><div style={{ padding: '16px' }}><Sel val={np.status} set={v => setNp(prev => ({ ...prev, status: v }))} opts={['已上架', '草稿', '已下架']} /></div></Card>
                   <Card>
                     <div style={{ padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <div style={{ fontSize: '14px', fontWeight: '600' }}>发布</div>
@@ -598,8 +598,8 @@ export default function Admin() {
                   <Card>
                     <CardHeader title="产品组织" />
                     <div style={{ padding: '16px' }}>
-                      <Field label="类型"><Inp val={np.type} set={v => setNp({ ...np, type: v })} ph="无" /></Field>
-                      <Field label="厂商"><Inp val={np.vendor} set={v => setNp({ ...np, vendor: v })} ph="无" /></Field>
+                      <Field label="类型"><Inp val={np.type} set={v => setNp(prev => ({ ...prev, type: v }))} ph="无" /></Field>
+                      <Field label="厂商"><Inp val={np.vendor} set={v => setNp(prev => ({ ...prev, vendor: v }))} ph="无" /></Field>
                       <Field label="产品系列"><div style={{ border: `1px solid ${C.border}`, borderRadius: '8px', padding: '9px 12px', fontSize: '13px', color: C.purple, cursor: 'pointer' }}>⊕ Add 产品系列</div></Field>
                       <Field label="标记"><div style={{ border: `1px solid ${C.border}`, borderRadius: '8px', padding: '9px 12px', fontSize: '13px', color: C.purple, cursor: 'pointer' }}>⊕ Add 标记</div></Field>
                     </div>
