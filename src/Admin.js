@@ -1,3 +1,4 @@
+import AdminSettings from './AdminSettings';
 import Toolbar from './Toolbar';
 import { useState, useEffect } from 'react';
 
@@ -92,6 +93,7 @@ const EmptyState = ({ icon, title, desc, btnText, onBtn, btnText2 }) => (
 
 export default function Admin() {
   const [page, setPage] = useState('dashboard');
+  const [showSettings, setShowSettings] = useState(false);
   const [subPage, setSubPage] = useState('');
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [expanded, setExpanded] = useState({ orders: true, products: true, customers: false, content: true, online_store: false });
@@ -153,9 +155,11 @@ export default function Admin() {
   const Th = ({ children }) => <th style={{ padding: '10px 16px', textAlign: 'left', fontSize: '13px', color: C.textMuted, fontWeight: '500', borderBottom: `1px solid ${C.border}`, background: '#fafafa', whiteSpace: 'nowrap' }}>{children}</th>;
   const Td = ({ children, style }) => <td style={{ padding: '12px 16px', borderBottom: `1px solid #f1f2f3`, fontSize: '14px', color: C.text, ...style }}>{children}</td>;
 
-  const navItem = (id, label, icon, badge_count = 0, indent = false) => {
+  const navItem = (id, label, icon, badge_count = 0, indent = false, customClick) => {
     const on = page === id && subPage === '' && !selectedMenu;
-    return (
+    if (showSettings) return <AdminSettings onBack={() => { setShowSettings(false); setPage("dashboard"); }} />;
+
+  return (
       <div onClick={() => { setPage(id); setSubPage(''); setSelectedMenu(null); }}
         style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: indent ? '6px 12px 6px 40px' : '7px 14px', cursor: 'pointer', borderRadius: '6px', margin: '1px 6px', fontSize: '13px', color: on ? C.text : indent ? C.textMuted : C.text, background: on ? C.bg : 'transparent', fontWeight: on ? '500' : '400' }}>
         {!indent && <span style={{ color: on ? C.text : C.textMuted, display: 'flex' }}>{icon}</span>}
@@ -167,7 +171,9 @@ export default function Admin() {
 
   const navGroup = (id, label, icon, children, subIds = []) => {
     const isActive = page === id || subIds.includes(page);
-    return (
+    if (showSettings) return <AdminSettings onBack={() => { setShowSettings(false); setPage("dashboard"); }} />;
+
+  return (
       <>
         <div onClick={() => { setPage(id); setSubPage(''); setSelectedMenu(null); setExpanded(e => ({ ...e, [id]: !e[id] })); }}
           style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '7px 14px', cursor: 'pointer', borderRadius: '6px', margin: '1px 6px', fontSize: '13px', color: C.text, background: isActive ? C.bg : 'transparent', fontWeight: isActive ? '500' : '400' }}>
@@ -179,6 +185,8 @@ export default function Admin() {
       </>
     );
   };
+
+  if (showSettings) return <AdminSettings onBack={() => { setShowSettings(false); setPage("dashboard"); }} />;
 
   return (
     <div style={{ display: 'flex', height: '100vh', background: C.white, fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif', fontSize: '14px', color: C.text }}>
@@ -238,7 +246,7 @@ export default function Admin() {
         </div>
 
         <div style={{ borderTop: `1px solid ${C.border}`, padding: '6px 0' }}>
-          {navItem('settings', '设置', Icons.settings)}
+          {navItem('settings', '设置', Icons.settings, 0, false, () => setShowSettings(true))}
           <div style={{ padding: '8px 14px', fontSize: '12px', color: C.textMuted, borderTop: `1px solid ${C.border}`, marginTop: '4px' }}>
             <div style={{ marginBottom: '2px', cursor: 'pointer' }}>Sidekick 对话 &gt;</div>
             <div style={{ color: C.textLight, fontSize: '11px' }}>Adding products to your Sho...</div>
