@@ -88,7 +88,7 @@ export default function Admin() {
   );
 
   const Card = ({ children, style }) => (
-    <div style={{ background: C.white, borderRadius: '8px', border: '1px solid rgba(255,255,255,0.6)', marginBottom: '16px', backdropFilter: 'blur(10px)', boxShadow: '0 1px 3px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04)', ...style }}>{children}</div>
+    <div style={{ background: C.white, borderRadius: '8px', border: '1px solid rgba(255,255,255,0.6)', marginBottom: '16px', backdropFilter: 'blur(10px)', boxShadow: '0 0 0 1px rgba(92,106,196,0.15), 0 4px 16px rgba(92,106,196,0.12), 0 1px 4px rgba(92,106,196,0.08)', ...style }}>{children}</div>
   );
 
   const CardHeader = ({ title, action, actionLabel, actionStyle }) => (
