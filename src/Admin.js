@@ -157,7 +157,6 @@ export default function Admin() {
 
   const navItem = (id, label, icon, badge_count = 0, indent = false, customClick) => {
     const on = page === id && subPage === '' && !selectedMenu;
-    if (showSettings) return <AdminSettings onBack={() => { setShowSettings(false); setPage("dashboard"); }} />;
 
   return (
       <div onClick={() => { setPage(id); setSubPage(''); setSelectedMenu(null); }}
@@ -171,7 +170,6 @@ export default function Admin() {
 
   const navGroup = (id, label, icon, children, subIds = []) => {
     const isActive = page === id || subIds.includes(page);
-    if (showSettings) return <AdminSettings onBack={() => { setShowSettings(false); setPage("dashboard"); }} />;
 
   return (
       <>
