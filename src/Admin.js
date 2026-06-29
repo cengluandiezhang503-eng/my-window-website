@@ -1,6 +1,6 @@
+import React, { useState, useEffect } from 'react';
 import AdminSettings from './AdminSettings';
 import Toolbar from './Toolbar';
-import { useState, useEffect } from 'react';
 
 const PURPLE = {
   border: 'rgba(139,63,212,0.6)',
@@ -118,10 +118,17 @@ export default function Admin() {
 
   const pending = quotes.filter(q => q.status === '待跟进').length;
 
-  const Inp = ({ val, set, ph }) => (
-    <input value={val} onChange={e => set(e.target.value)} placeholder={ph}
-      style={{ width: '100%', border: `1px solid ${C.border}`, borderRadius: '8px', padding: '8px 12px', fontSize: '14px', outline: 'none', boxSizing: 'border-box', color: C.text, background: C.white }} />
-  );
+  const Inp = ({ val, set, ph }) => {
+    const [local, setLocal] = React.useState(val);
+    React.useEffect(() => { setLocal(val); }, [val]);
+    return (
+      <input
+        value={local}
+        onChange={e => { setLocal(e.target.value); set(e.target.value); }}
+        placeholder={ph}
+        style={{ width: '100%', border: `1px solid ${C.border}`, borderRadius: '8px', padding: '8px 12px', fontSize: '14px', outline: 'none', boxSizing: 'border-box', color: C.text, background: C.white }} />
+    );
+  };
 
   const Sel = ({ val, set, opts }) => (
     <select value={val} onChange={e => set(e.target.value)}
