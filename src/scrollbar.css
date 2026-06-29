@@ -1,0 +1,24 @@
+/* 全局滚动条 - 金属紫色 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f6f6f7;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #8B3FD4, #5B0FA8, #3A0875);
+  border-radius: 10px;
+  box-shadow: inset 0 1px 0 rgba(192,132,252,0.5), inset 0 -1px 0 rgba(58,8,117,0.3);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #C084FC, #8B3FD4, #5B0FA8);
+}
+
+::-webkit-scrollbar-corner {
+  background: #f6f6f7;
+}
