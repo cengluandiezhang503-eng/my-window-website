@@ -561,7 +561,22 @@ export default function Admin() {
                   </Card>
                   <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end', paddingBottom: '20px' }}>
                     <BtnSecondary onClick={() => setSubPage('')}>取消</BtnSecondary>
-                    <BtnPrimary>保存产品</BtnPrimary>
+                    <BtnPrimary onClick={async () => {
+                      if (!np.name) { alert('请输入产品名称'); return; }
+                      const res = await fetch('https://window-server.onrender.com/api/products', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(np)
+                      });
+                      if (res.ok) {
+                        const saved = await res.json();
+                        setProducts(prev => [...prev, saved]);
+                        setNp({ name:'', description:'', price:'', category:'', image:'', status:'已上架', type:'', vendor:'', tags:'' });
+                        setSubPage('');
+                      } else {
+                        alert('添加失败，请重试');
+                      }
+                    }}>保存产品</BtnPrimary>
                   </div>
                 </div>
                 <div>
