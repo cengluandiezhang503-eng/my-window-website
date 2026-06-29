@@ -120,9 +120,7 @@ export default function Admin() {
 
   const Inp = ({ val, set, ph }) => (
     <input value={val} onChange={e => set(e.target.value)} placeholder={ph}
-      style={{ width: '100%', border: `1px solid ${C.border}`, borderRadius: '8px', padding: '8px 12px', fontSize: '14px', outline: 'none', boxSizing: 'border-box', color: C.text, background: C.white }}
-      onFocus={e => e.target.style.borderColor = PURPLE.main}
-      onBlur={e => e.target.style.borderColor = C.border} />
+      style={{ width: '100%', border: `1px solid ${C.border}`, borderRadius: '8px', padding: '8px 12px', fontSize: '14px', outline: 'none', boxSizing: 'border-box', color: C.text, background: C.white }} />
   );
 
   const Sel = ({ val, set, opts }) => (
