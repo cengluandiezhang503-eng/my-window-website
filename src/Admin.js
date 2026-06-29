@@ -1,3 +1,4 @@
+import Toolbar from './Toolbar';
 import { useState, useEffect } from 'react';
 
 const PURPLE = {
@@ -88,25 +89,6 @@ const EmptyState = ({ icon, title, desc, btnText, onBtn, btnText2 }) => (
   </div>
 );
 
-const Toolbar = () => (
-  <div style={{ display: 'flex', alignItems: 'center', gap: '2px', padding: '6px 12px', borderBottom: `1px solid ${C.border}`, background: '#fafafa', flexWrap: 'wrap' }}>
-    <select style={{ border: `1px solid ${C.border}`, borderRadius: '4px', padding: '3px 6px', fontSize: '13px', outline: 'none', background: C.white, cursor: 'pointer', marginRight: '4px' }}>
-      <option>段落</option><option>标题1</option><option>标题2</option>
-    </select>
-    <div style={{ width: '1px', height: '18px', background: C.border, margin: '0 4px' }}></div>
-    <button style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '3px 7px', borderRadius: '4px', fontSize: '13px', fontWeight: '700' }}>B</button>
-    <button style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '3px 7px', borderRadius: '4px', fontSize: '13px', fontStyle: 'italic' }}>I</button>
-    <button style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '3px 7px', borderRadius: '4px', fontSize: '13px', textDecoration: 'underline' }}>U</button>
-    <button style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '3px 7px', borderRadius: '4px', fontSize: '13px' }}>A<span style={{ display: 'inline-block', width: '8px', height: '2px', background: '#e00', marginLeft: '1px', verticalAlign: 'bottom' }}></span></button>
-    <div style={{ width: '1px', height: '18px', background: C.border, margin: '0 4px' }}></div>
-    <button style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '3px 7px', borderRadius: '4px', fontSize: '13px' }}>≡ ▾</button>
-    <div style={{ width: '1px', height: '18px', background: C.border, margin: '0 4px' }}></div>
-    {['🔗', '😊', '▶', '⊞'].map((b, i) => <button key={i} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '3px 6px', borderRadius: '4px', fontSize: '14px' }}>{b}</button>)}
-    <button style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '3px 7px', borderRadius: '4px', fontSize: '13px' }}>•••</button>
-    <div style={{ width: '1px', height: '18px', background: C.border, margin: '0 4px' }}></div>
-    <button style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '3px 7px', borderRadius: '4px', fontSize: '12px', fontFamily: 'monospace' }}>{'</>'}</button>
-  </div>
-);
 
 export default function Admin() {
   const [page, setPage] = useState('dashboard');
