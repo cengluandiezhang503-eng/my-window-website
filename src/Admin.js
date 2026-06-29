@@ -922,7 +922,7 @@ export default function Admin() {
           {page === 'transfers' && <div><h1 style={{ fontSize: '20px', fontWeight: '600', margin: '0 0 20px' }}>Transfers</h1><EmptyState icon="🔄" title="在不同地点之间移动库存" desc="在您的各个业务地点之间移动并跟踪库存。" btnText="创建转移" /></div>}
           {page === 'gift_cards' && <div><div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}><h1 style={{ fontSize: '20px', fontWeight: '600', margin: 0 }}>Gift cards</h1><BtnSecondary>导出</BtnSecondary></div><EmptyState icon="🎁" title="开始销售礼品卡" desc="添加要销售的礼品卡产品，或创建礼品卡并将其直接发送给您的客户。" btnText="创建礼品卡" btnText2="添加礼品卡产品" /></div>}
 
-          {['abandoned', 'companies', 'meta_objects', 'files', 'blog_posts', 'finance', 'analytics', 'online_store', 'preferences', 'ai_agent', 'apps', 'settings'].includes(page) && (
+          {['abandoned', 'companies', 'meta_objects', 'files', 'blog_posts', 'finance', 'analytics', 'online_store', 'preferences', 'ai_agent', 'apps'].includes(page) && (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh' }}>
               <Card style={{ padding: '60px 40px', textAlign: 'center', minWidth: '300px' }}>
                 <div style={{ fontSize: '48px', marginBottom: '16px' }}>🚧</div>
