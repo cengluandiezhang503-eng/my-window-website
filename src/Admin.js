@@ -89,6 +89,25 @@ const EmptyState = ({ icon, title, desc, btnText, onBtn, btnText2 }) => (
     </div>
   </div>
 );
+function Inp({ val, set, ph }) {
+  return (
+    <input
+      value={val}
+      onChange={e => set(e.target.value)}
+      placeholder={ph}
+      style={{ width: '100%', border: '1px solid #e1e3e5', borderRadius: '8px', padding: '8px 12px', fontSize: '14px', outline: 'none', boxSizing: 'border-box', color: '#202223', background: '#fff' }} />
+  );
+}
+
+function Sel({ val, set, opts }) {
+  return (
+    <select value={val} onChange={e => set(e.target.value)}
+      style={{ width: '100%', border: '1px solid #e1e3e5', borderRadius: '8px', padding: '8px 12px', fontSize: '14px', outline: 'none', boxSizing: 'border-box', color: '#202223', background: '#fff', cursor: 'pointer' }}>
+      {opts.map(o => <option key={o.v || o} value={o.v || o}>{o.l || o}</option>)}
+    </select>
+  );
+}
+
 
 
 export default function Admin() {
