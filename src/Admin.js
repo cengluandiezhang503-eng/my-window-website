@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AdminSettings from './AdminSettings';
-import Toolbar from './Toolbar';
+import RichEditor from './RichEditor';
 
 const PURPLE = {
   border: 'rgba(139,63,212,0.6)',
@@ -462,9 +462,7 @@ export default function Admin() {
                       <Field label="标题"><Inp val={np.name} set={v => setNp(prev => ({ ...prev, name: v }))} ph="短袖T恤" /></Field>
                       <Field label="描述">
                         <div style={{ border: `1px solid ${C.border}`, borderRadius: '8px', overflow: 'hidden' }}>
-                          <Toolbar />
-                          <textarea value={np.description} onChange={e => setNp(prev => ({ ...prev, description: e.target.value }))} rows={8}
-                            style={{ width: '100%', border: 'none', outline: 'none', padding: '12px', fontSize: '14px', resize: 'vertical', boxSizing: 'border-box', color: C.text, fontFamily: 'inherit' }} />
+                          <RichEditor value={np.description} onChange={html => setNp(prev => ({ ...prev, description: html }))} placeholder="输入产品描述..." />
                         </div>
                       </Field>
                     </div>
@@ -683,9 +681,7 @@ export default function Admin() {
                       <Field label="标题"><Inp val={ns.name} set={v => setNs(prev => ({ ...prev, name: v }))} ph="例如，夏季产品系列" /></Field>
                       <Field label="描述">
                         <div style={{ border: `1px solid ${C.border}`, borderRadius: '8px', overflow: 'hidden' }}>
-                          <Toolbar />
-                          <textarea value={ns.description} onChange={e => setNs(prev => ({ ...prev, description: e.target.value }))} rows={8}
-                            style={{ width: '100%', border: 'none', outline: 'none', padding: '12px', fontSize: '14px', resize: 'vertical', boxSizing: 'border-box', fontFamily: 'inherit' }} />
+                          <RichEditor value={ns.description} onChange={html => setNs(prev => ({ ...prev, description: html }))} placeholder="输入系列描述..." />
                         </div>
                       </Field>
                     </div>
