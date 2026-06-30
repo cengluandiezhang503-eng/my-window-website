@@ -36,7 +36,6 @@ const cardStyle = {
   overflow: 'hidden',
 };
 
-// Shopify SVG Icons
 const Icons = {
   home: <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 1.293a1 1 0 00-1.414 0L1.586 9H3v9a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1V9h1.414L10.707 1.293z"/></svg>,
   orders: <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 6a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zm0 6a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2z" clipRule="evenodd"/></svg>,
@@ -53,7 +52,6 @@ const Icons = {
   apps: <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>,
   settings: <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd"/></svg>,
   menu: <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"/></svg>,
-  pages: <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clipRule="evenodd"/></svg>,
   drag: <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M7 2a2 2 0 110 4 2 2 0 010-4zM7 8a2 2 0 110 4 2 2 0 010-4zM7 14a2 2 0 110 4 2 2 0 010-4zM13 2a2 2 0 110 4 2 2 0 010-4zM13 8a2 2 0 110 4 2 2 0 010-4zM13 14a2 2 0 110 4 2 2 0 010-4z"/></svg>,
 };
 
@@ -89,26 +87,64 @@ const EmptyState = ({ icon, title, desc, btnText, onBtn, btnText2 }) => (
     </div>
   </div>
 );
+
 function Inp({ val, set, ph }) {
   return (
     <input
       value={val}
       onChange={e => set(e.target.value)}
       placeholder={ph}
-      style={{ width: '100%', border: '1px solid #e1e3e5', borderRadius: '8px', padding: '8px 12px', fontSize: '14px', outline: 'none', boxSizing: 'border-box', color: '#202223', background: '#fff' }} />
+      style={{ width: '100%', border: `1px solid ${C.border}`, borderRadius: '8px', padding: '8px 12px', fontSize: '14px', outline: 'none', boxSizing: 'border-box', color: C.text, background: C.white }} />
   );
 }
 
 function Sel({ val, set, opts }) {
   return (
     <select value={val} onChange={e => set(e.target.value)}
-      style={{ width: '100%', border: '1px solid #e1e3e5', borderRadius: '8px', padding: '8px 12px', fontSize: '14px', outline: 'none', boxSizing: 'border-box', color: '#202223', background: '#fff', cursor: 'pointer' }}>
+      style={{ width: '100%', border: `1px solid ${C.border}`, borderRadius: '8px', padding: '8px 12px', fontSize: '14px', outline: 'none', boxSizing: 'border-box', color: C.text, background: C.white, cursor: 'pointer' }}>
       {opts.map(o => <option key={o.v || o} value={o.v || o}>{o.l || o}</option>)}
     </select>
   );
 }
 
+function Card({ children, style }) {
+  return <div style={{ ...cardStyle, ...style }}>{children}</div>;
+}
 
+function CardHeader({ title, action, actionLabel }) {
+  return (
+    <div style={{ padding: '16px 20px', borderBottom: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div style={{ fontSize: '14px', fontWeight: '600', color: C.text }}>{title}</div>
+      {actionLabel && <button onClick={action} style={{ background: 'none', border: 'none', cursor: 'pointer', color: C.purple, fontSize: '14px' }}>{actionLabel}</button>}
+    </div>
+  );
+}
+
+function Field({ label, children, sub }) {
+  return (
+    <div style={{ marginBottom: '16px' }}>
+      {label && <label style={{ fontSize: '14px', fontWeight: '500', color: C.text, marginBottom: '6px', display: 'block' }}>{label}</label>}
+      {children}
+      {sub && <div style={{ fontSize: '12px', color: C.textMuted, marginTop: '4px' }}>{sub}</div>}
+    </div>
+  );
+}
+
+function BtnPrimary({ children, onClick, style }) {
+  return <button onClick={onClick} style={{ background: C.text, color: '#fff', border: 'none', borderRadius: '8px', padding: '8px 16px', cursor: 'pointer', fontSize: '14px', fontWeight: '500', ...style }}>{children}</button>;
+}
+
+function BtnSecondary({ children, onClick, style }) {
+  return <button onClick={onClick} style={{ background: C.white, color: C.text, border: `1px solid ${C.border}`, borderRadius: '8px', padding: '8px 16px', cursor: 'pointer', fontSize: '14px', ...style }}>{children}</button>;
+}
+
+function Th({ children }) {
+  return <th style={{ padding: '10px 16px', textAlign: 'left', fontSize: '13px', color: C.textMuted, fontWeight: '500', borderBottom: `1px solid ${C.border}`, background: '#fafafa', whiteSpace: 'nowrap' }}>{children}</th>;
+}
+
+function Td({ children, style }) {
+  return <td style={{ padding: '12px 16px', borderBottom: `1px solid #f1f2f3`, fontSize: '14px', color: C.text, ...style }}>{children}</td>;
+}
 
 export default function Admin() {
   const [page, setPage] = useState('dashboard');
@@ -137,52 +173,9 @@ export default function Admin() {
 
   const pending = quotes.filter(q => q.status === '待跟进').length;
 
-  const Inp = ({ val, set, ph }) => {
-    const [local, setLocal] = React.useState(val);
-    React.useEffect(() => { setLocal(val); }, [val]);
-    return (
-      <input
-        value={local}
-        onChange={e => { setLocal(e.target.value); set(e.target.value); }}
-        placeholder={ph}
-        style={{ width: '100%', border: `1px solid ${C.border}`, borderRadius: '8px', padding: '8px 12px', fontSize: '14px', outline: 'none', boxSizing: 'border-box', color: C.text, background: C.white }} />
-    );
-  };
-
-  const Sel = ({ val, set, opts }) => (
-    <select value={val} onChange={e => set(e.target.value)}
-      style={{ width: '100%', border: `1px solid ${C.border}`, borderRadius: '8px', padding: '8px 12px', fontSize: '14px', outline: 'none', boxSizing: 'border-box', color: C.text, background: C.white, cursor: 'pointer' }}>
-      {opts.map(o => <option key={o.v || o} value={o.v || o}>{o.l || o}</option>)}
-    </select>
-  );
-
-  const Card = ({ children, style }) => <div style={{ ...cardStyle, ...style }}>{children}</div>;
-  const CardHeader = ({ title, action, actionLabel }) => (
-    <div style={{ padding: '16px 20px', borderBottom: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <div style={{ fontSize: '14px', fontWeight: '600', color: C.text }}>{title}</div>
-      {actionLabel && <button onClick={action} style={{ background: 'none', border: 'none', cursor: 'pointer', color: C.purple, fontSize: '14px' }}>{actionLabel}</button>}
-    </div>
-  );
-  const Field = ({ label, children, sub }) => (
-    <div style={{ marginBottom: '16px' }}>
-      {label && <label style={{ fontSize: '14px', fontWeight: '500', color: C.text, marginBottom: '6px', display: 'block' }}>{label}</label>}
-      {children}
-      {sub && <div style={{ fontSize: '12px', color: C.textMuted, marginTop: '4px' }}>{sub}</div>}
-    </div>
-  );
-  const BtnPrimary = ({ children, onClick, style }) => (
-    <button onClick={onClick} style={{ background: C.text, color: '#fff', border: 'none', borderRadius: '8px', padding: '8px 16px', cursor: 'pointer', fontSize: '14px', fontWeight: '500', ...style }}>{children}</button>
-  );
-  const BtnSecondary = ({ children, onClick, style }) => (
-    <button onClick={onClick} style={{ background: C.white, color: C.text, border: `1px solid ${C.border}`, borderRadius: '8px', padding: '8px 16px', cursor: 'pointer', fontSize: '14px', ...style }}>{children}</button>
-  );
-  const Th = ({ children }) => <th style={{ padding: '10px 16px', textAlign: 'left', fontSize: '13px', color: C.textMuted, fontWeight: '500', borderBottom: `1px solid ${C.border}`, background: '#fafafa', whiteSpace: 'nowrap' }}>{children}</th>;
-  const Td = ({ children, style }) => <td style={{ padding: '12px 16px', borderBottom: `1px solid #f1f2f3`, fontSize: '14px', color: C.text, ...style }}>{children}</td>;
-
   const navItem = (id, label, icon, badge_count = 0, indent = false, customClick) => {
     const on = page === id && subPage === '' && !selectedMenu;
-
-  return (
+    return (
       <div onClick={() => { if (customClick) { customClick(); } else { setPage(id); setSubPage(''); setSelectedMenu(null); } }}
         style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: indent ? '6px 12px 6px 40px' : '7px 14px', cursor: 'pointer', borderRadius: '6px', margin: '1px 6px', fontSize: '13px', color: on ? C.text : indent ? C.textMuted : C.text, background: on ? C.bg : 'transparent', fontWeight: on ? '500' : '400' }}>
         {!indent && <span style={{ color: on ? C.text : C.textMuted, display: 'flex' }}>{icon}</span>}
@@ -194,8 +187,7 @@ export default function Admin() {
 
   const navGroup = (id, label, icon, children, subIds = []) => {
     const isActive = page === id || subIds.includes(page);
-
-  return (
+    return (
       <>
         <div onClick={() => { setPage(id); setSubPage(''); setSelectedMenu(null); setExpanded(e => ({ ...e, [id]: !e[id] })); }}
           style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '7px 14px', cursor: 'pointer', borderRadius: '6px', margin: '1px 6px', fontSize: '13px', color: C.text, background: isActive ? C.bg : 'transparent', fontWeight: isActive ? '500' : '400' }}>
@@ -208,12 +200,11 @@ export default function Admin() {
     );
   };
 
-  if (showSettings) return <AdminSettings onBack={() => { setShowSettings(false); setPage("dashboard"); }} />;
+  if (showSettings) return <AdminSettings onBack={() => { setShowSettings(false); setPage('dashboard'); }} />;
 
   return (
     <div style={{ display: 'flex', height: '100vh', background: C.white, fontFamily: '-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif', fontSize: '14px', color: C.text }}>
 
-      {/* 侧边栏 */}
       <div style={{ width: '240px', flexShrink: 0, background: C.white, borderRight: `1px solid ${C.border}`, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         <div style={{ padding: '12px 14px', borderBottom: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', gap: '10px' }}>
           <div style={{ width: '32px', height: '32px', background: `linear-gradient(135deg, ${PURPLE.main}, ${PURPLE.light})`, borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', color: '#fff', fontWeight: '700', flexShrink: 0 }}>W</div>
@@ -276,7 +267,6 @@ export default function Admin() {
         </div>
       </div>
 
-      {/* 主内容 */}
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         <div style={{ height: '56px', background: C.white, borderBottom: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', padding: '0 20px', gap: '12px', flexShrink: 0 }}>
           {(subPage === 'add_product' || subPage === 'add_collection') ? (
@@ -287,7 +277,7 @@ export default function Admin() {
               </div>
               <div style={{ flex: 1 }}></div>
               <BtnSecondary onClick={() => setSubPage('')}>放弃</BtnSecondary>
-              <BtnPrimary>保存</BtnPrimary>
+              <BtnPrimary onClick={() => {}}>保存</BtnPrimary>
             </>
           ) : (
             <>
@@ -309,7 +299,6 @@ export default function Admin() {
 
         <div style={{ flex: 1, overflowY: 'auto', padding: '20px', background: C.bg }}>
 
-          {/* 主页 */}
           {page === 'dashboard' && (
             <div>
               <h1 style={{ fontSize: '20px', fontWeight: '600', margin: '0 0 20px' }}>主页</h1>
@@ -341,19 +330,18 @@ export default function Admin() {
             </div>
           )}
 
-          {/* 订单 */}
           {page === 'orders' && subPage === '' && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                 <h1 style={{ fontSize: '20px', fontWeight: '600', margin: 0 }}>Orders</h1>
-                <BtnSecondary>更多操作 ▾</BtnSecondary>
+                <BtnSecondary onClick={() => {}}>更多操作 ▾</BtnSecondary>
               </div>
               {quotes.length === 0 ? <EmptyState icon="📋" title="您的订单将显示在此处" desc="您可以在此处为订单发货、收取付款以及跟踪订单进度。" btnText="创建订单" /> : (
                 <Card>
                   <div style={{ padding: '12px 16px', borderBottom: `1px solid ${C.border}`, display: 'flex', gap: '8px' }}>
                     <div style={{ display: 'flex', border: `1px solid ${C.border}`, borderRadius: '8px', overflow: 'hidden' }}>
                       {['全部', '待跟进', '已联系', '已成交'].map((t, i) => (
-                        <div key={t} style={{ padding: '6px 14px', fontSize: '13px', cursor: 'pointer', borderRight: i < 3 ? `1px solid ${C.border}` : 'none', background: i === 0 ? C.white : C.white, color: i === 0 ? C.text : C.textMuted }}>
+                        <div key={t} style={{ padding: '6px 14px', fontSize: '13px', cursor: 'pointer', borderRight: i < 3 ? `1px solid ${C.border}` : 'none', background: C.white, color: i === 0 ? C.text : C.textMuted }}>
                           {t} <span style={{ background: C.bg, padding: '1px 5px', borderRadius: '8px', fontSize: '11px' }}>
                             {[quotes.length, pending, quotes.filter(q => q.status === '已联系').length, quotes.filter(q => q.status === '已成交').length][i]}
                           </span>
@@ -379,7 +367,7 @@ export default function Admin() {
                             </select>
                           </Td>
                           <Td style={{ color: C.textMuted }}>{new Date(q.created_at).toLocaleDateString('zh-CN')}</Td>
-                          <Td><BtnSecondary style={{ padding: '5px 10px', fontSize: '12px' }}>详情</BtnSecondary></Td>
+                          <Td><BtnSecondary style={{ padding: '5px 10px', fontSize: '12px' }} onClick={() => {}}>详情</BtnSecondary></Td>
                         </tr>
                       ))}
                     </tbody>
@@ -391,12 +379,11 @@ export default function Admin() {
 
           {page === 'drafts' && <div><h1 style={{ fontSize: '20px', fontWeight: '600', margin: '0 0 20px' }}>Drafts</h1><EmptyState icon="📝" title="手动创建订单和发票" desc="使用草稿订单接收电话订单、通过电子邮件向客户发送发票，并收取付款。" btnText="创建草稿订单" /></div>}
 
-          {/* 产品列表 */}
           {page === 'products' && subPage === '' && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                 <h1 style={{ fontSize: '20px', fontWeight: '600', margin: 0 }}>Products</h1>
-                <BtnSecondary>更多行动 ▾</BtnSecondary>
+                <BtnSecondary onClick={() => {}}>更多行动 ▾</BtnSecondary>
               </div>
               {products.length === 0 ? <EmptyState icon="📦" title="添加您的产品" desc="先为您的商店补充客户喜欢的产品" btnText="添加产品" onBtn={() => setSubPage('add_product')} btnText2="导入" /> : (
                 <Card>
@@ -437,8 +424,8 @@ export default function Admin() {
                           <Td style={{ fontWeight: '500' }}>{p.price}</Td>
                           <Td>
                             <div style={{ display: 'flex', gap: '6px' }}>
-                              <button onClick={e => { e.stopPropagation(); setNp({name:p.name,description:p.description||'',price:p.price||'',category:p.category||'',image:p.image||'',status:'已上架',type:'',vendor:'',tags:''}); setSubPage('add_product'); }} style={{ background: 'white', color: '#202223', border: '1px solid #e1e3e5', borderRadius: '6px', padding: '4px 10px', cursor: 'pointer', fontSize: '12px' }}>编辑</button>
-                              <button onClick={async e => { e.stopPropagation(); if (window.confirm('确定删除？')) { const r = await fetch('https://window-server.onrender.com/api/products/'+p.id,{method:'DELETE'}); if(r.ok) setProducts(prev=>prev.filter(x=>x.id!==p.id)); } }} style={{ background: 'white', color: '#d72c0d', border: '1px solid #d72c0d', borderRadius: '6px', padding: '4px 10px', cursor: 'pointer', fontSize: '12px' }}>删除</button>
+                              <button onClick={e => { e.stopPropagation(); setNp({ name: p.name, description: p.description || '', price: p.price || '', category: p.category || '', image: p.image || '', status: '已上架', type: '', vendor: '', tags: '' }); setSubPage('add_product'); }} style={{ background: 'white', color: '#202223', border: '1px solid #e1e3e5', borderRadius: '6px', padding: '4px 10px', cursor: 'pointer', fontSize: '12px' }}>编辑</button>
+                              <button onClick={async e => { e.stopPropagation(); if (window.confirm('确定删除？')) { const r = await fetch('https://window-server.onrender.com/api/products/' + p.id, { method: 'DELETE' }); if (r.ok) setProducts(prev => prev.filter(x => x.id !== p.id)); } }} style={{ background: 'white', color: '#d72c0d', border: '1px solid #d72c0d', borderRadius: '6px', padding: '4px 10px', cursor: 'pointer', fontSize: '12px' }}>删除</button>
                             </div>
                           </Td>
                         </tr>
@@ -448,20 +435,19 @@ export default function Admin() {
                   <div style={{ padding: '12px 16px', borderTop: `1px solid ${C.border}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div style={{ fontSize: '13px', color: C.textMuted }}>共 {products.length} 个产品</div>
                     <div style={{ display: 'flex', gap: '4px' }}>
-                      <BtnSecondary style={{ padding: '5px 10px', fontSize: '12px' }}>上一页</BtnSecondary>
-                      <BtnSecondary style={{ padding: '5px 10px', fontSize: '12px' }}>下一页</BtnSecondary>
+                      <BtnSecondary style={{ padding: '5px 10px', fontSize: '12px' }} onClick={() => {}}>上一页</BtnSecondary>
+                      <BtnSecondary style={{ padding: '5px 10px', fontSize: '12px' }} onClick={() => {}}>下一页</BtnSecondary>
                     </div>
                   </div>
                 </Card>
               )}
               <div style={{ textAlign: 'center', marginTop: '12px', display: 'flex', gap: '8px', justifyContent: 'center' }}>
                 <BtnPrimary onClick={() => setSubPage('add_product')}>添加产品</BtnPrimary>
-                <BtnSecondary>导入</BtnSecondary>
+                <BtnSecondary onClick={() => {}}>导入</BtnSecondary>
               </div>
             </div>
           )}
 
-          {/* 添加产品 */}
           {page === 'products' && subPage === 'add_product' && (
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
@@ -488,8 +474,8 @@ export default function Admin() {
                     <div style={{ padding: '20px' }}>
                       <div style={{ border: `2px dashed ${C.border}`, borderRadius: '8px', padding: '40px 20px', textAlign: 'center', background: C.bg }}>
                         <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginBottom: '8px' }}>
-                          <BtnSecondary>上传新文件</BtnSecondary>
-                          <BtnSecondary>选择现有文件</BtnSecondary>
+                          <BtnSecondary onClick={() => {}}>上传新文件</BtnSecondary>
+                          <BtnSecondary onClick={() => {}}>选择现有文件</BtnSecondary>
                         </div>
                         <div style={{ fontSize: '12px', color: C.textMuted }}>支持图片、视频或 3D 模型</div>
                       </div>
@@ -522,7 +508,7 @@ export default function Admin() {
                       </div>
                       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                         {['原价', '单价', '收取税款 是', '单件成本'].map(t => (
-                          <span key={t} style={{ fontSize: '13px', color: C.purple, cursor: 'pointer', padding: '4px 10px', background: '#f0f1ff', borderRadius: '6px', border: `1px solid #c4caf6` }}>{t}</span>
+                          <span key={t} style={{ fontSize: '13px', color: C.purple, cursor: 'pointer', padding: '4px 10px', background: '#f0f1ff', borderRadius: '6px', border: '1px solid #c4caf6' }}>{t}</span>
                         ))}
                       </div>
                     </div>
@@ -544,7 +530,7 @@ export default function Admin() {
                       </div>
                       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                         {['SKU', '条码', '缺货时继续销售 关闭'].map(t => (
-                          <span key={t} style={{ fontSize: '13px', color: C.purple, cursor: 'pointer', padding: '4px 10px', background: '#f0f1ff', borderRadius: '6px', border: `1px solid #c4caf6` }}>{t}</span>
+                          <span key={t} style={{ fontSize: '13px', color: C.purple, cursor: 'pointer', padding: '4px 10px', background: '#f0f1ff', borderRadius: '6px', border: '1px solid #c4caf6' }}>{t}</span>
                         ))}
                       </div>
                     </div>
@@ -570,7 +556,7 @@ export default function Admin() {
                         </Field>
                       </div>
                       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                        {['原产国/地区', 'HS 编码'].map(t => <span key={t} style={{ fontSize: '13px', color: C.purple, cursor: 'pointer', padding: '4px 10px', background: '#f0f1ff', borderRadius: '6px', border: `1px solid #c4caf6` }}>{t}</span>)}
+                        {['原产国/地区', 'HS 编码'].map(t => <span key={t} style={{ fontSize: '13px', color: C.purple, cursor: 'pointer', padding: '4px 10px', background: '#f0f1ff', borderRadius: '6px', border: '1px solid #c4caf6' }}>{t}</span>)}
                       </div>
                     </div>
                   </Card>
@@ -599,7 +585,7 @@ export default function Admin() {
                       });
                       const saved = await res.json();
                       setProducts(prev => [...prev, saved]);
-                      setNp({ name:'', description:'', price:'', category:'', image:'', status:'已上架', type:'', vendor:'', tags:'' });
+                      setNp({ name: '', description: '', price: '', category: '', image: '', status: '已上架', type: '', vendor: '', tags: '' });
                       setSubPage('');
                     }}>保存产品</BtnPrimary>
                   </div>
@@ -632,12 +618,11 @@ export default function Admin() {
                 </div>
               </div>
               <div style={{ position: 'sticky', bottom: 0, background: C.white, borderTop: `1px solid ${C.border}`, padding: '12px 20px', display: 'flex', justifyContent: 'flex-end' }}>
-                <BtnPrimary>保存</BtnPrimary>
+                <BtnPrimary onClick={() => {}}>保存</BtnPrimary>
               </div>
             </div>
           )}
 
-          {/* 产品系列 */}
           {page === 'collections' && subPage === '' && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
@@ -684,7 +669,6 @@ export default function Admin() {
             </div>
           )}
 
-          {/* 添加产品系列 */}
           {page === 'collections' && subPage === 'add_collection' && (
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
@@ -696,11 +680,11 @@ export default function Admin() {
                 <div>
                   <Card>
                     <div style={{ padding: '20px' }}>
-                      <Field label="标题"><Inp val={ns.name} set={v => setNs({ ...ns, name: v })} ph="例如，夏季产品系列" /></Field>
+                      <Field label="标题"><Inp val={ns.name} set={v => setNs(prev => ({ ...prev, name: v }))} ph="例如，夏季产品系列" /></Field>
                       <Field label="描述">
                         <div style={{ border: `1px solid ${C.border}`, borderRadius: '8px', overflow: 'hidden' }}>
                           <Toolbar />
-                          <textarea value={ns.description} onChange={e => setNs({ ...ns, description: e.target.value })} rows={8}
+                          <textarea value={ns.description} onChange={e => setNs(prev => ({ ...prev, description: e.target.value }))} rows={8}
                             style={{ width: '100%', border: 'none', outline: 'none', padding: '12px', fontSize: '14px', resize: 'vertical', boxSizing: 'border-box', fontFamily: 'inherit' }} />
                         </div>
                       </Field>
@@ -711,7 +695,7 @@ export default function Admin() {
                     <div style={{ padding: '20px' }}>
                       {[{ v: 'manual', l: '手动', desc: '将产品逐个添加到此产品系列。详细了解手动产品系列。' }, { v: 'smart', l: '智能', desc: '符合您所设条件的现有和未来产品将自动添加到此产品系列。详细了解智能产品系列。' }].map(t => (
                         <label key={t.v} style={{ display: 'flex', gap: '10px', marginBottom: '12px', cursor: 'pointer' }}>
-                          <input type="radio" name="type" value={t.v} checked={ns.type === t.v} onChange={() => setNs({ ...ns, type: t.v })} style={{ marginTop: '2px', accentColor: C.green }} />
+                          <input type="radio" name="type" value={t.v} checked={ns.type === t.v} onChange={() => setNs(prev => ({ ...prev, type: t.v }))} style={{ marginTop: '2px', accentColor: C.green }} />
                           <div><div style={{ fontWeight: '500', marginBottom: '4px' }}>{t.l}</div><div style={{ fontSize: '13px', color: C.textMuted }}>{t.desc}</div></div>
                         </label>
                       ))}
@@ -725,7 +709,7 @@ export default function Admin() {
                           <span style={{ color: C.textLight }}>🔍</span>
                           <input placeholder="搜索 产品" style={{ background: 'none', border: 'none', outline: 'none', fontSize: '13px', width: '100%' }} />
                         </div>
-                        <BtnSecondary>浏览</BtnSecondary>
+                        <BtnSecondary onClick={() => {}}>浏览</BtnSecondary>
                         <select style={{ border: `1px solid ${C.border}`, borderRadius: '8px', padding: '6px 12px', fontSize: '13px', outline: 'none', background: C.white }}><option>排序：最相关</option></select>
                       </div>
                       <div style={{ textAlign: 'center', padding: '40px', color: C.textMuted }}>
@@ -746,7 +730,7 @@ export default function Admin() {
                     <BtnSecondary onClick={() => setSubPage('')}>取消</BtnSecondary>
                     <BtnPrimary onClick={async () => {
                       const res = await fetch('https://window-server.onrender.com/api/series', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(ns) });
-                      if (res.ok) { const d = await res.json(); setSeries([...series, d.data || { ...ns, id: Date.now() }]); setNs({ name: '', description: '', image: '', type: 'manual' }); setSubPage(''); }
+                      if (res.ok) { const d = await res.json(); setSeries(prev => [...prev, d.data || { ...ns, id: Date.now() }]); setNs({ name: '', description: '', image: '', type: 'manual' }); setSubPage(''); }
                     }}>保存</BtnPrimary>
                   </div>
                 </div>
@@ -769,29 +753,28 @@ export default function Admin() {
                     <CardHeader title="图片" />
                     <div style={{ padding: '16px' }}>
                       <div style={{ border: `1px solid ${C.border}`, borderRadius: '8px', padding: '40px 20px', textAlign: 'center', background: C.bg }}>
-                        <BtnSecondary>添加图片</BtnSecondary>
+                        <BtnSecondary onClick={() => {}}>添加图片</BtnSecondary>
                         <div style={{ fontSize: '12px', color: C.textMuted, marginTop: '8px' }}>或拖放图片进行上传</div>
                       </div>
-                      <div style={{ marginTop: '12px' }}><Inp val={ns.image} set={v => setNs({ ...ns, image: v })} ph="https://..." /></div>
+                      <div style={{ marginTop: '12px' }}><Inp val={ns.image} set={v => setNs(prev => ({ ...prev, image: v }))} ph="https://..." /></div>
                     </div>
                   </Card>
                   <Card><CardHeader title="模板样式" /><div style={{ padding: '16px' }}><Sel val="默认产品系列" set={() => {}} opts={['默认产品系列']} /></div></Card>
                 </div>
               </div>
               <div style={{ position: 'sticky', bottom: 0, background: C.white, borderTop: `1px solid ${C.border}`, padding: '12px 20px', display: 'flex', justifyContent: 'flex-end' }}>
-                <BtnPrimary>保存</BtnPrimary>
+                <BtnPrimary onClick={() => {}}>保存</BtnPrimary>
               </div>
             </div>
           )}
 
-          {/* 菜单列表 */}
           {page === 'menus' && !selectedMenu && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                 <h1 style={{ fontSize: '20px', fontWeight: '600', margin: 0 }}>Menus</h1>
                 <div style={{ display: 'flex', gap: '8px' }}>
-                  <BtnSecondary>URL 重定向</BtnSecondary>
-                  <BtnPrimary>创建菜单</BtnPrimary>
+                  <BtnSecondary onClick={() => {}}>URL 重定向</BtnSecondary>
+                  <BtnPrimary onClick={() => {}}>创建菜单</BtnPrimary>
                 </div>
               </div>
               <Card>
@@ -816,7 +799,6 @@ export default function Admin() {
             </div>
           )}
 
-          {/* 菜单详情 */}
           {page === 'menus' && selectedMenu && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
@@ -827,7 +809,7 @@ export default function Admin() {
                   <span style={{ color: C.textMuted }}>›</span>
                   <h1 style={{ fontSize: '20px', fontWeight: '600', margin: 0 }}>{selectedMenu.name}</h1>
                 </div>
-                <BtnSecondary>复制</BtnSecondary>
+                <BtnSecondary onClick={() => {}}>复制</BtnSecondary>
               </div>
 
               <Card>
@@ -865,19 +847,18 @@ export default function Admin() {
             </div>
           )}
 
-          {/* Pages */}
           {page === 'pages' && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                 <h1 style={{ fontSize: '20px', fontWeight: '600', margin: 0 }}>Pages</h1>
-                <BtnPrimary>添加页面</BtnPrimary>
+                <BtnPrimary onClick={() => {}}>添加页面</BtnPrimary>
               </div>
               <div style={{ background: '#fef3c7', border: '1px solid #fcd34d', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
                 <span style={{ fontSize: '16px' }}>⚠️</span>
                 <div>
                   <div style={{ fontWeight: '500', marginBottom: '4px' }}>商店访问受限。</div>
                   <div style={{ fontSize: '13px', color: C.textMuted, marginBottom: '8px' }}>只有拥有密码的访客才能访问您的在线商店。</div>
-                  <BtnSecondary style={{ fontSize: '13px', padding: '5px 12px' }}>管理访问权限</BtnSecondary>
+                  <BtnSecondary style={{ fontSize: '13px', padding: '5px 12px' }} onClick={() => {}}>管理访问权限</BtnSecondary>
                 </div>
               </div>
               <Card>
@@ -914,13 +895,12 @@ export default function Admin() {
             </div>
           )}
 
-          {/* 客户 */}
           {page === 'customers' && <div><h1 style={{ fontSize: '20px', fontWeight: '600', margin: '0 0 20px' }}>Customers</h1><EmptyState icon="👤" title="所有客户相关内容，尽在一处" desc="管理客户详细信息、查看客户订单历史记录，并将客户分组到不同的细分中。" btnText="添加客户" btnText2="导入客户" /></div>}
           {page === 'segments' && (
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                 <h1 style={{ fontSize: '20px', fontWeight: '600', margin: 0 }}>Segments</h1>
-                <BtnPrimary>创建细分</BtnPrimary>
+                <BtnPrimary onClick={() => {}}>创建细分</BtnPrimary>
               </div>
               <Card>
                 <div style={{ padding: '12px 16px', borderBottom: `1px solid ${C.border}` }}>
@@ -952,13 +932,13 @@ export default function Admin() {
             </div>
           )}
 
-          {page === 'discounts' && <div><div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}><h1 style={{ fontSize: '20px', fontWeight: '600', margin: 0 }}>Discounts</h1><div style={{ display: 'flex', gap: '8px' }}><BtnSecondary>↑ 导出</BtnSecondary><BtnPrimary>创建折扣</BtnPrimary></div></div><EmptyState icon="✂️" title="管理折扣和促销" desc="添加在结账时适用的折扣码和自动折扣。" btnText="创建折扣" /></div>}
-          {page === 'growth' && <div><h1 style={{ fontSize: '20px', fontWeight: '600', margin: '0 0 20px' }}>Growth</h1><Card><div style={{ padding: '40px', textAlign: 'center' }}><div style={{ fontSize: '48px', marginBottom: '16px' }}>📈</div><div style={{ fontSize: '16px', fontWeight: '600', marginBottom: '8px' }}>自动开展营销活动</div><div style={{ fontSize: '13px', color: C.textMuted, marginBottom: '16px' }}>宣传活动 Autopilot 可在主要渠道推广您的产品。</div><BtnPrimary>加入等候列表</BtnPrimary></div></Card></div>}
-          {page === 'markets' && <div><div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}><h1 style={{ fontSize: '20px', fontWeight: '600', margin: 0 }}>Markets</h1><BtnPrimary>创建市场</BtnPrimary></div><Card><table style={{ width: '100%', borderCollapse: 'collapse' }}><thead><tr>{['市场', '状态', '包括', '自定义'].map(h => <Th key={h}>{h}</Th>)}</tr></thead><tbody><tr onMouseEnter={e => e.currentTarget.style.background = C.bg} onMouseLeave={e => e.currentTarget.style.background = 'transparent'}><Td style={{ color: C.purple }}>🌐 China</Td><Td><Badge status="有效" /></Td><Td>🇨🇳 1 个区域</Td><Td></Td></tr></tbody></table></Card></div>}
+          {page === 'discounts' && <div><div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}><h1 style={{ fontSize: '20px', fontWeight: '600', margin: 0 }}>Discounts</h1><div style={{ display: 'flex', gap: '8px' }}><BtnSecondary onClick={() => {}}>↑ 导出</BtnSecondary><BtnPrimary onClick={() => {}}>创建折扣</BtnPrimary></div></div><EmptyState icon="✂️" title="管理折扣和促销" desc="添加在结账时适用的折扣码和自动折扣。" btnText="创建折扣" /></div>}
+          {page === 'growth' && <div><h1 style={{ fontSize: '20px', fontWeight: '600', margin: '0 0 20px' }}>Growth</h1><Card><div style={{ padding: '40px', textAlign: 'center' }}><div style={{ fontSize: '48px', marginBottom: '16px' }}>📈</div><div style={{ fontSize: '16px', fontWeight: '600', marginBottom: '8px' }}>自动开展营销活动</div><div style={{ fontSize: '13px', color: C.textMuted, marginBottom: '16px' }}>宣传活动 Autopilot 可在主要渠道推广您的产品。</div><BtnPrimary onClick={() => {}}>加入等候列表</BtnPrimary></div></Card></div>}
+          {page === 'markets' && <div><div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}><h1 style={{ fontSize: '20px', fontWeight: '600', margin: 0 }}>Markets</h1><BtnPrimary onClick={() => {}}>创建市场</BtnPrimary></div><Card><table style={{ width: '100%', borderCollapse: 'collapse' }}><thead><tr>{['市场', '状态', '包括', '自定义'].map(h => <Th key={h}>{h}</Th>)}</tr></thead><tbody><tr onMouseEnter={e => e.currentTarget.style.background = C.bg} onMouseLeave={e => e.currentTarget.style.background = 'transparent'}><Td style={{ color: C.purple }}>🌐 China</Td><Td><Badge status="有效" /></Td><Td>🇨🇳 1 个区域</Td><Td></Td></tr></tbody></table></Card></div>}
           {page === 'inventory' && <div><h1 style={{ fontSize: '20px', fontWeight: '600', margin: '0 0 20px' }}>Inventory</h1><EmptyState icon="🔍" title="未找到库存" desc="请尝试更改筛选条件或搜索词。" btnText="清除搜索和筛选条件" /></div>}
           {page === 'purchase_orders' && <div><h1 style={{ fontSize: '20px', fontWeight: '600', margin: '0 0 20px' }}>Purchase orders</h1><EmptyState icon="📦" title="管理您的采购订单" desc="跟踪和接收从供应商处订购的库存。" btnText="创建采购订单" /></div>}
           {page === 'transfers' && <div><h1 style={{ fontSize: '20px', fontWeight: '600', margin: '0 0 20px' }}>Transfers</h1><EmptyState icon="🔄" title="在不同地点之间移动库存" desc="在您的各个业务地点之间移动并跟踪库存。" btnText="创建转移" /></div>}
-          {page === 'gift_cards' && <div><div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}><h1 style={{ fontSize: '20px', fontWeight: '600', margin: 0 }}>Gift cards</h1><BtnSecondary>导出</BtnSecondary></div><EmptyState icon="🎁" title="开始销售礼品卡" desc="添加要销售的礼品卡产品，或创建礼品卡并将其直接发送给您的客户。" btnText="创建礼品卡" btnText2="添加礼品卡产品" /></div>}
+          {page === 'gift_cards' && <div><div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}><h1 style={{ fontSize: '20px', fontWeight: '600', margin: 0 }}>Gift cards</h1><BtnSecondary onClick={() => {}}>导出</BtnSecondary></div><EmptyState icon="🎁" title="开始销售礼品卡" desc="添加要销售的礼品卡产品，或创建礼品卡并将其直接发送给您的客户。" btnText="创建礼品卡" btnText2="添加礼品卡产品" /></div>}
 
           {['abandoned', 'companies', 'meta_objects', 'files', 'blog_posts', 'finance', 'analytics', 'online_store', 'preferences', 'ai_agent', 'apps'].includes(page) && (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh' }}>
